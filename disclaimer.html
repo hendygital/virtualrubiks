@@ -1,0 +1,1594 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>H5 Rubik - Virtual Rubik's Cube Game</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transform-style: preserve-3d;
+    }
+
+    body, html {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      background-attachment: fixed;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ui-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column; /* Mengatur arah flex menjadi kolom */
+    gap: 10px;
+    align-items: flex-start; /* Menyelaraskan item ke kiri */
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    word-wrap: break-word; /* Memungkinkan teks untuk terurai */
+}
+
+    .timer {
+      font-size: 32px;
+      font-weight: bold;
+      min-width: 180px;
+      font-family: 'Courier New', monospace;
+      background: linear-gradient(145deg, #1a1a1a, #000);
+      color: #00ff41;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 3px solid #333;
+      box-shadow: 
+        inset 0 0 20px rgba(0, 255, 65, 0.4),
+        0 0 20px rgba(0, 255, 65, 0.2),
+        0 4px 15px rgba(0, 0, 0, 0.3);
+      text-shadow: 
+        0 0 10px #00ff41,
+        0 0 20px #00ff41,
+        0 0 30px #00ff41;
+      letter-spacing: 3px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
+      animation: scanline 2s infinite;
+    }
+
+    @keyframes scanline {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+    }
+
+   .btn {
+    padding: 12px 10px; /* Kurangi padding samping jika perlu */
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap; /* Mencegah teks berpindah ke baris baru */
+    text-align: center; /* Menyelaraskan teks di tengah */
+    display: inline-block; /* Agar tombol menyesuaikan dengan konten */
+    margin: 0; /* Pastikan tidak ada margin tambahan */
+}
+
+
+.play .btns {
+    padding: 12px 10px; /* Kurangi padding samping jika perlu */
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap; /* Mencegah teks berpindah ke baris baru */
+    text-align: center; /* Menyelaraskan teks di tengah */
+    display: inline-block; /* Agar tombol menyesuaikan dengan konten */
+    margin: 0; /* Pastikan tidak ada margin tambahan */
+}
+    .btn:hover {
+      background: linear-gradient(145deg, #5a6fd8, #6a4190);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(-1px);
+    }
+
+    .instructions {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 15px;
+      text-align: center;
+      font-size: 14px;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .grabbing {
+      cursor: url('https://www.google.com/intl/en_ALL/mapfiles/closedhand.cur'), pointer;
+      cursor: grabbing;
+    }
+
+    .grabbing * {
+      cursor: url('https://www.google.com/intl/en_ALL/mapfiles/closedhand.cur'), pointer;
+      cursor: grabbing;
+    }
+
+    .grab:hover {
+      cursor: url('https://www.google.com/intl/en_ALL/mapfiles/openhand.cur'), pointer;
+      cursor: grab;
+    }
+
+    .move:hover {
+      cursor: move;
+    }
+
+    #container {
+      height: min(300px, 70vw);
+      width: min(300px, 70vw);
+      transform-style: preserve-3d;
+    }
+
+    #perspective {
+      perspective: 1000px;
+      height: min(300px, 70vw);
+      width: min(300px, 70vw);
+      transform-style: preserve-3d;
+    }
+
+    .side {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      position: absolute;
+      transform-style: preserve-3d;
+    }
+
+    .pip {
+      height: calc(100% / 3);
+      width: calc(100% / 3);
+      flex-shrink: 0;
+      transform-style: preserve-3d;
+      border: none;
+      outline: none;
+      position: relative;
+    }
+
+    #container.animate .pip {
+      transition: .3s;
+    }
+
+    .pip > div:first-child {
+      height: 90%;
+      width: 90%;
+      border-radius: 8px;
+      transform: translateZ(8px);
+      position: relative;
+      box-shadow: 
+        0 0 0 2px rgba(0, 0, 0, 0.2),
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .pip > div:first-child::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%, rgba(0, 0, 0, 0.1) 100%);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    .pip > div:last-child {
+      background: #1a1a1a;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transform: rotateX(180deg) translateZ(8px);
+      backface-visibility: visible !important;
+      border-radius: 8px;
+      box-shadow: 
+        0 0 0 2px rgba(0, 0, 0, 0.4),
+        inset 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Enhanced color gradients for 3D effect */
+    .pip > div:first-child.red-face {
+      background: linear-gradient(135deg, #ff4444 0%, #cc0000 50%, #990000 100%);
+    }
+
+    .pip > div:first-child.green-face {
+      background: linear-gradient(135deg, #44ff44 0%, #00cc00 50%, #009900 100%);
+    }
+
+    .pip > div:first-child.blue-face {
+      background: linear-gradient(135deg, #4444ff 0%, #0000cc 50%, #000099 100%);
+    }
+
+    .pip > div:first-child.orange-face {
+      background: linear-gradient(135deg, #ffaa44 0%, #ff6600 50%, #cc4400 100%);
+    }
+
+    .pip > div:first-child.white-face {
+      background: linear-gradient(135deg, #ffffff 0%, #eeeeee 50%, #cccccc 100%);
+    }
+
+    .pip > div:first-child.yellow-face {
+      background: linear-gradient(135deg, #ffff44 0%, #ffcc00 50%, #cc9900 100%);
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background: linear-gradient(145deg, #ffffff, #f8f9fa);
+      padding: 40px;
+      border-radius: 25px;
+      text-align: center;
+      max-width: 450px;
+      margin: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .modal h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 32px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal p {
+      color: #666;
+      margin-bottom: 25px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .modal .btn {
+      padding: 15px 30px;
+      font-size: 16px;
+      border-radius: 15px;
+    }
+
+    .btn-success {
+      background: linear-gradient(145deg, #28a745, #20903d);
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+
+    .btn-success:hover {
+      background: linear-gradient(145deg, #248a3d, #1e7e34);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(145deg, #6c757d, #5a6268);
+      box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+    }
+
+    .btn-secondary:hover {
+      background: linear-gradient(145deg, #5a6268, #495057);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .ui-container {
+        top: 15px;
+        padding: 12px 20px;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .timer {
+        font-size: 28px;
+        min-width: 160px;
+        padding: 10px 14px;
+      }
+
+      #container, #perspective {
+        height: min(300px, 80vw);
+        width: min(300px, 80vw);
+      }
+
+      .instructions {
+        bottom: 15px;
+        font-size: 13px;
+        padding: 10px 20px;
+      }
+
+      .modal-content {
+        margin: 15px;
+        padding: 30px;
+      }
+
+      .modal h2 {
+        font-size: 28px;
+      }
+
+      .modal-buttons {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #container, #perspective {
+        height: 250px;
+        width: 250px;
+      }
+
+      .ui-container {
+        width: 90%;
+        max-width: 320px;
+      }
+
+      .timer {
+        font-size: 24px;
+        min-width: 140px;
+        padding: 8px 12px;
+      }
+    }
+
+    /* Loading animation */
+    .loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3000;
+      color: white;
+      font-size: 18px;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 25px;
+      border-radius: 15px;
+      display: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Ambient lighting effect */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+.play {
+    display: block; /* Pastikan gambar dalam blok untuk pusatkan tombol */
+    margin: 0 auto; /* Pusatkan gambar */
+}
+
+.play .btns {
+    padding: 12px 10px; /* Padding tombol */
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 2rem; /* Ukuran teks responsif */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap; /* Mencegah teks berpindah ke baris baru */
+    text-align: center; /* Menyelaraskan teks di tengah */
+    display: inline-block; /* Agar tombol menyesuaikan dengan konten */
+    margin: 0; /* Pastikan tidak ada margin tambahan */
+}
+
+.playimg {
+    display: flex; /* Menggunakan flexbox */
+    flex-direction: column; /* Arah kolom */
+    align-items: center; /* Pusatkan secara horizontal */
+    justify-content: center; /* Pusatkan secara vertikal */
+    height: 100vh; /* Sesuaikan tinggi kontainer */
+}	
+  </style>
+</head>
+
+<body>
+  <div class="ui-container">
+    
+    <div class="controls">
+	
+      <a href="/"><button class="btn">🏠</button></a>
+       <a href="about-us"><button class="btn">About Us</button></a>
+	    <a href="how-to-play"><button class="btn">How To</button></a>
+	     <a href="disclaimer"><button class="btn">Disclaimer</button></a>
+		  <a href="privacy-policy"><button class="btn">Privacy</button></a>
+		   <a href="terms-of-service"><button class="btn">TOS</button></a>
+		   <a href="contact-us"><button class="btn">Contact</button></a>
+	
+    </div>
+<h2>Disclaimer</h2>
+<p>The information provided by "Virtual Rubik" is intended for educational and entertainment purposes only. While we strive to create a fun and engaging experience, we make no guarantees regarding the accuracy or completeness of the gameplay and any associated features.</p>
+<p><strong>No Liability</strong><br>
+We are not responsible for any loss or damage arising from your use of the game or reliance on any information provided. By using "Virtual Rubik," you acknowledge that you do so at your own risk.</p>
+<p><strong>User Responsibility</strong><br>
+Players are encouraged to engage with the game responsibly and to take breaks as needed. If you experience discomfort or fatigue, please stop playing.</p>
+<p><strong>Changes to the Game</strong><br>
+We reserve the right to modify or discontinue any aspect of "Virtual Rubik" at any time without prior notice.</p>
+<p>Thank you for playing, and we hope you enjoy the challenge!</p>
+ <div class="content">
+ 
+ </div>
+
+ 
+
+  <!-- Success Modal -->
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <h2>🎉 Congratulations!</h2>
+      <p id="completionMessage">You solved the Rubik's Cube!</p>
+      <div class="modal-buttons">
+        <button class="btn btn-success" onclick="takeScreenshot()">📸 Screenshot & Download</button>
+        <button class="btn btn-secondary" onclick="closeModal()">Continue Playing</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="loading" class="loading">Taking screenshot...</div>
+
+  <script>
+    document.addEventListener('drag', e => e.preventDefault());
+    document.addEventListener('dragstart', e => e.preventDefault());
+    document.addEventListener('mousedown', e => e.preventDefault());
+
+    // Timer functionality with milliseconds
+    let startTime = null;
+    let timerInterval = null;
+    let gameStarted = false;
+    let gameSolved = false;
+
+    function startTimer() {
+      if (!gameStarted) {
+        startTime = Date.now();
+        gameStarted = true;
+        timerInterval = setInterval(updateTimer, 10); // Update every 10ms for smooth milliseconds
+      }
+    }
+
+    function updateTimer() {
+      if (!startTime) return;
+      const elapsed = Date.now() - startTime;
+      const minutes = Math.floor(elapsed / 60000);
+      const seconds = Math.floor((elapsed % 60000) / 1000);
+      const milliseconds = elapsed % 1000;
+      document.getElementById('timer').textContent = 
+        `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(3, '0')}`;
+    }
+
+    function stopTimer() {
+      if (timerInterval) {
+        clearInterval(timerInterval);
+        timerInterval = null;
+      }
+    }
+
+    function resetTimer() {
+      stopTimer();
+      startTime = null;
+      gameStarted = false;
+      gameSolved = false;
+      document.getElementById('timer').textContent = '00:00.000';
+    }
+
+    function multiply(a, b) {
+      if (a[0].length !== b.length) throw new RangeError('dimensional mismatch');
+      const ans = [];
+      for (let i = 0; i < a.length; i++) ans[i] = [];
+      for (let rowA = 0; rowA < a.length; rowA++) {
+        for (let colB = 0; colB < b[0].length; colB++) {
+          let val = 0;
+          for (let i = 0; i < a[0].length; i++) {
+            val += a[rowA][i] * b[i][colB];
+          }
+          ans[rowA][colB] = val;
+        }
+      }
+      return ans;
+    }
+
+    const Rz = theta => [
+      [Math.cos(theta), -Math.sin(theta), 0, 0],
+      [Math.sin(theta), Math.cos(theta), 0, 0],
+      [0, 0, 1, 0],
+      [0, 0, 0, 1]
+    ];
+
+    const Ry = theta => [
+      [Math.cos(theta), 0, Math.sin(theta), 0],
+      [0, 1, 0, 0],
+      [-Math.sin(theta), 0, Math.cos(theta), 0],
+      [0, 0, 0, 1]
+    ];
+
+    const Rx = theta => [
+      [1, 0, 0, 0],
+      [0, Math.cos(theta), Math.sin(theta), 0],
+      [0, -Math.sin(theta), Math.cos(theta), 0],
+      [0, 0, 0, 1]
+    ];
+
+    const mxLookup = { x: Rx, y: Ry, z: Rz };
+
+    function rotate3D(p, axis, theta) {
+      const vec = [[p.x], [p.y], [p.z]];
+      const r = mxLookup[axis](theta);
+      const result = multiply(r, vec);
+      return {
+        x: result[0][0],
+        y: result[1][0],
+        z: result[2][0]
+      };
+    }
+
+    const orientations = {
+      front: {
+        normal: [[0], [0], [1], [1]],
+        yaw: [1, 0, 0],
+        pitch: [0, -1, 0]
+      },
+      back: {
+        normal: [[0], [0], [-1], [1]],
+        yaw: [-1, 0, 0],
+        pitch: [0, 1, 0]
+      },
+      left: {
+        normal: [[-1], [0], [0], [1]],
+        yaw: [0, 0, 1],
+        roll: [0, -1, 0]
+      },
+      right: {
+        normal: [[1], [0], [0], [1]],
+        yaw: [0, 0, -1],
+        roll: [0, 1, 0]
+      },
+      top: {
+        normal: [[0], [-1], [0], [1]],
+        pitch: [0, 0, -1],
+        roll: [1, 0, 0]
+      },
+      bottom: {
+        normal: [[0], [1], [0], [1]],
+        pitch: [0, 0, 1],
+        roll: [-1, 0, 0]
+      }
+    };
+
+    const p = document.getElementById('perspective');
+
+    const colors = {
+      r: 'red',
+      g: 'lime',
+      b: 'blue',
+      o: 'orange',
+      w: 'white',
+      y: 'yellow'
+    };
+
+    const colorKeys = Object.keys(colors);
+
+    const tform = {
+      front: "rotateY(0deg)",
+      left: "rotateY(-90deg)",
+      right: "rotateY(90deg)",
+      back: "rotateX(180deg)",
+      top: "rotateX(90deg)",
+      bottom: "rotateX(-90deg)"
+    };
+
+    function rotate(arr, direction = 'clockwise') {
+      if (!new Set(['clockwise', 'counterclockwise']).has(direction)) throw 'err';
+      const result = [];
+      for (let i = 0; i < arr[0].length; i++) result.push([]);
+      for (let i = 0; i < arr.length; i++) {
+        for (let j = 0; j < arr[0].length; j++) {
+          const iPrime = direction === 'counterclockwise' ? arr[0].length - j - 1 : j;
+          const jPrime = direction === 'counterclockwise' ? i : arr.length - i - 1;
+          result[iPrime][jPrime] = arr[i][j];
+        }
+      }
+      return result;
+    }
+
+    function getRandomColor() {
+      return colorKeys[Math.floor(Math.random() * colorKeys.length)];
+    }
+
+    function createRandomFace() {
+      return [
+        [{ color: getRandomColor() }, { color: getRandomColor() }, { color: getRandomColor() }],
+        [{ color: getRandomColor() }, { color: getRandomColor() }, { color: getRandomColor() }],
+        [{ color: getRandomColor() }, { color: getRandomColor() }, { color: getRandomColor() }]
+      ];
+    }
+
+    function isFaceSolved(face, expectedColor) {
+      for (let i = 0; i < face.length; i++) {
+        for (let j = 0; j < face[0].length; j++) {
+          if (face[i][j].color !== expectedColor) return false;
+        }
+      }
+      return true;
+    }
+
+    function checkIfSolved() {
+      if (gameSolved) return;
+      
+      const solved = isFaceSolved(cube.front, 'g') &&
+                    isFaceSolved(cube.left, 'b') &&
+                    isFaceSolved(cube.right, 'w') &&
+                    isFaceSolved(cube.top, 'o') &&
+                    isFaceSolved(cube.bottom, 'r') &&
+                    isFaceSolved(cube.back, 'y');
+
+      if (solved && gameStarted) {
+        gameSolved = true;
+        stopTimer();
+        showSuccessModal();
+      }
+    }
+
+    function showSuccessModal() {
+      const elapsed = Date.now() - startTime;
+      const minutes = Math.floor(elapsed / 60000);
+      const seconds = Math.floor((elapsed % 60000) / 1000);
+      const milliseconds = elapsed % 1000;
+      const timeText = `${minutes}:${seconds.toString().padStart(2, '0')}.${milliseconds.toString().padStart(3, '0')}`;
+      
+      document.getElementById('completionMessage').textContent = 
+        `You solved the Rubik's Cube in ${timeText}! Amazing work!`;
+      document.getElementById('successModal').style.display = 'flex';
+    }
+
+    function closeModal() {
+      document.getElementById('successModal').style.display = 'none';
+    }
+
+    function getColorClass(color) {
+      const colorMap = {
+        'r': 'red-face',
+        'g': 'green-face', 
+        'b': 'blue-face',
+        'o': 'orange-face',
+        'w': 'white-face',
+        'y': 'yellow-face'
+      };
+      return colorMap[color] || '';
+    }
+
+    class Rubix {
+      constructor() {
+        this.front = [
+          [{ color: 'g' }, { color: 'g' }, { color: 'g' }],
+          [{ color: 'g' }, { color: 'g' }, { color: 'g' }],
+          [{ color: 'g' }, { color: 'g' }, { color: 'g' }]
+        ];
+        this.left = [
+          [{ color: 'b' }, { color: 'b' }, { color: 'b' }],
+          [{ color: 'b' }, { color: 'b' }, { color: 'b' }],
+          [{ color: 'b' }, { color: 'b' }, { color: 'b' }]
+        ];
+        this.right = [
+          [{ color: 'w' }, { color: 'w' }, { color: 'w' }],
+          [{ color: 'w' }, { color: 'w' }, { color: 'w' }],
+          [{ color: 'w' }, { color: 'w' }, { color: 'w' }]
+        ];
+        this.top = [
+          [{ color: 'o' }, { color: 'o' }, { color: 'o' }],
+          [{ color: 'o' }, { color: 'o' }, { color: 'o' }],
+          [{ color: 'o' }, { color: 'o' }, { color: 'o' }]
+        ];
+        this.bottom = [
+          [{ color: 'r' }, { color: 'r' }, { color: 'r' }],
+          [{ color: 'r' }, { color: 'r' }, { color: 'r' }],
+          [{ color: 'r' }, { color: 'r' }, { color: 'r' }]
+        ];
+        this.back = [
+          [{ color: 'y' }, { color: 'y' }, { color: 'y' }],
+          [{ color: 'y' }, { color: 'y' }, { color: 'y' }],
+          [{ color: 'y' }, { color: 'y' }, { color: 'y' }]
+        ];
+
+        const container = document.createElement('div');
+        container.id = 'container';
+        p.appendChild(container);
+        this.container = container;
+
+        this.paint();
+      }
+
+      shiftLeft() {
+        const prime = {
+          front: this.left,
+          top: rotate(this.top, 'counterclockwise'),
+          bottom: rotate(this.bottom, 'clockwise'),
+          right: this.front,
+          left: rotate(rotate(this.back, 'clockwise'), 'clockwise'),
+          back: rotate(rotate(this.right, 'clockwise'), 'clockwise')
+        };
+        Object.assign(this, prime);
+      }
+
+      shiftRight() {
+        const prime = {
+          front: this.right,
+          top: rotate(this.top, 'clockwise'),
+          bottom: rotate(this.bottom, 'counterclockwise'),
+          right: rotate(rotate(this.back, 'clockwise'), 'clockwise'),
+          left: this.front,
+          back: rotate(rotate(this.left, 'clockwise'), 'clockwise')
+        };
+        Object.assign(this, prime);
+      }
+
+      shiftUp() {
+        const prime = {
+          front: this.top,
+          top: this.back,
+          bottom: this.front,
+          right: rotate(this.right, 'counterclockwise'),
+          left: rotate(this.left, 'clockwise'),
+          back: this.bottom
+        };
+        Object.assign(this, prime);
+      }
+
+      shiftDown() {
+        const prime = {
+          front: this.bottom,
+          top: this.front,
+          bottom: this.back,
+          right: rotate(this.right, 'clockwise'),
+          left: rotate(this.left, 'counterclockwise'),
+          back: this.top
+        };
+        Object.assign(this, prime);
+      }
+
+      rotate(dir) {
+        ['front', 'top', 'right', 'bottom', 'left'].forEach(d => 
+          this[d] = rotate(this[d], dir === 1 ? 'clockwise' : 'counterclockwise')
+        );
+
+        [this.top, this.right, this.bottom, this.left] = dir === 1 ?
+          [this.left, this.top, this.right, this.bottom] :
+          [this.right, this.bottom, this.left, this.top];
+
+        this.back = rotate(this.back, dir === 1 ? 'counterclockwise' : 'clockwise');
+      }
+
+      vLeft(dir) {
+        let to = [this.back, this.bottom, this.front, this.top];
+        if (dir === -1) to = revArr(to);
+
+        const store = to[0].map(r => r[0]);
+        for (let i = 0; i < to.length - 1; i++) {
+          for (let j = 0; j < to[0].length; j++) {
+            to[i][j][0] = to[i + 1][j][0];
+          }
+        }
+        for (let j = 0; j < to[0].length; j++) {
+          to[to.length - 1][j][0] = store[j];
+        }
+
+        this.left = rotate(this.left, dir === -1 ? 'counterclockwise' : 'clockwise');
+      }
+
+      topMove(dir) {
+        this.rotate(-1);
+        this.vLeft(dir);
+        this.rotate(1);
+      }
+
+      bottomMove(dir) {
+        this.rotate(1);
+        this.vLeft(-dir);
+        this.rotate(-1);
+      }
+
+      rightMove(dir) {
+        this.rotate(1);
+        this.rotate(1);
+        this.vLeft(dir);
+        this.rotate(-1);
+        this.rotate(-1);
+      }
+
+      frontMove(dir) {
+        this.shiftRight();
+        this.vLeft(dir);
+        this.shiftLeft();
+      }
+
+      backMove(dir) {
+        this.shiftLeft();
+        this.vLeft(dir);
+        this.shiftRight();
+      }
+
+      paint() {
+        this.container.innerHTML = "";
+        this.paintFace('front');
+        this.paintFace('top');
+        this.paintFace('right');
+        this.paintFace('bottom');
+        this.paintFace('left');
+        this.paintFace('back');
+      }
+
+      paintFace(face) {
+        const side = this[face];
+        const sidel = document.createElement('div');
+        sidel.classList.add('side');
+
+        for (let i = 0; i < side.length; i++) {
+          for (let j = 0; j < side[0].length; j++) {
+            const pip = document.createElement('div');
+            if (j === 1 || i === 1) {
+              pip.addEventListener('mousedown', dragRotate);
+              pip.addEventListener('touchstart', dragRotate);
+              pip.classList.add('grab');
+            } else {
+              pip.addEventListener('mousedown', pull(pip, face));
+              pip.addEventListener('touchstart', pull(pip, face));
+              pip.classList.add('move');
+            }
+
+            pip.classList.add('pip');
+            pip.style.display = "flex";
+            pip.style['align-items'] = 'center';
+            pip.style['justify-content'] = 'center';
+
+            const front = document.createElement('div');
+            front.classList.add('pip');
+            front.classList.add(getColorClass(side[i][j].color));
+            
+            pip.appendChild(front);
+
+            const back = document.createElement('div');
+            back.classList.add('pip');
+            pip.appendChild(back);
+
+            const containerSize = Math.min(300, window.innerWidth * 0.7, window.innerHeight * 0.7);
+            const pipSize = containerSize / 3;
+            pip.style['transform-origin'] = `${containerSize/2 - j * pipSize}px ${containerSize/2 - i * pipSize}px -${containerSize/2}px`;
+            pip.__ORIGINAL_TRANSFORM__ = tform[face];
+            pip.style.transform = tform[face];
+            sidel.appendChild(pip);
+            side[i][j].element = pip;
+          }
+        }
+
+        this.container.appendChild(sidel);
+      }
+
+      // Animation methods remain the same but with added solve check
+      leftTheta(theta, dir) {
+        [this.top, this.front, this.bottom, this.back].forEach(side => {
+          for (let i = 0; i < side.length; i++) {
+            side[i][0].element.style.transform = `rotateX(${dir * theta}deg)` + side[i][0].element.__ORIGINAL_TRANSFORM__;
+          }
+        });
+        for (let i = 0; i < this.left.length; i++) {
+          for (let j = 0; j < this.left[0].length; j++) {
+            const containerSize = Math.min(300, window.innerWidth * 0.7, window.innerHeight * 0.7);
+            const pipSize = containerSize / 3;
+            this.left[i][j].element.style['transform-origin'] = `${containerSize/2 - j * pipSize}px ${containerSize/2 - i * pipSize}px -${containerSize/2}px`;
+            this.left[i][j].element.style.transform = this.left[i][j].element.__ORIGINAL_TRANSFORM__ + `rotateZ(${-dir * theta}deg)`;
+          }
+        }
+      }
+
+      rightTheta(theta, dir) {
+        [this.top, this.front, this.bottom, this.back].forEach(side => {
+          for (let i = 0; i < side.length; i++) {
+            side[i][2].element.style.transform = `rotateX(${dir * theta}deg)` + side[i][2].element.__ORIGINAL_TRANSFORM__;
+          }
+        });
+        for (let i = 0; i < this.right.length; i++) {
+          for (let j = 0; j < this.right[0].length; j++) {
+            const containerSize = Math.min(300, window.innerWidth * 0.7, window.innerHeight * 0.7);
+            const pipSize = containerSize / 3;
+            this.right[i][j].element.style['transform-origin'] = `${containerSize/2 - j * pipSize}px ${containerSize/2 - i * pipSize}px -${containerSize/2}px`;
+            this.right[i][j].element.style.transform = this.right[i][j].element.__ORIGINAL_TRANSFORM__ + `rotateZ(${dir * theta}deg)`;
+          }
+        }
+      }
+
+      frontTheta(theta, dir) {
+        for (let i = 0; i < this.left.length; i++) {
+          this.left[i][2].element.style.transform = this.left[i][2].element.__ORIGINAL_TRANSFORM__ + `rotateX(${dir * theta}deg)`;
+        }
+
+        for (let i = 0; i < this.right.length; i++) {
+          this.right[i][0].element.style.transform = this.right[i][0].element.__ORIGINAL_TRANSFORM__ + `rotateX(${-dir * theta}deg)`;
+        }
+
+        for (let i = 0; i < this.top.length; i++) {
+          this.top[2][i].element.style.transform = this.top[2][i].element.__ORIGINAL_TRANSFORM__ + `rotateY(${dir * theta}deg)`;
+        }
+
+        for (let i = 0; i < this.bottom.length; i++) {
+          this.bottom[0][i].element.style.transform = this.bottom[0][i].element.__ORIGINAL_TRANSFORM__ + `rotateY(${-dir * theta}deg)`;
+        }
+
+        for (let i = 0; i < this.front.length; i++) {
+          for (let j = 0; j < this.front[0].length; j++) {
+            const containerSize = Math.min(300, window.innerWidth * 0.7, window.innerHeight * 0.7);
+            const pipSize = containerSize / 3;
+            this.front[i][j].element.style['transform-origin'] = `${containerSize/2 - j * pipSize}px ${containerSize/2 - i * pipSize}px -${containerSize/2}px`;
+            this.front[i][j].element.style.transform = this.front[i][j].element.__ORIGINAL_TRANSFORM__ + `rotateZ(${dir * theta}deg)`;
+          }
+        }
+      }
+
+      backTheta(theta, dir) {
+        for (let i = 0; i < this.left.length; i++) {
+          this.left[i][0].element.style.transform = this.left[i][0].element.__ORIGINAL_TRANSFORM__ + `rotateX(${dir * theta}deg)`;
+        }
+
+        for (let i = 0; i < this.right.length; i++) {
+          this.right[i][2].element.style.transform = this.right[i][2].element.__ORIGINAL_TRANSFORM__ + `rotateX(${-dir * theta}deg)`;
+        }
+
+        for (let i = 0; i < this.top.length; i++) {
+          this.top[0][i].element.style.transform = this.top[0][i].element.__ORIGINAL_TRANSFORM__ + `rotateY(${dir * theta}deg)`;
+        }
+
+        for (let i = 0; i < this.bottom.length; i++) {
+          this.bottom[2][i].element.style.transform = this.bottom[2][i].element.__ORIGINAL_TRANSFORM__ + `rotateY(${-dir * theta}deg)`;
+        }
+
+        for (let i = 0; i < this.back.length; i++) {
+          for (let j = 0; j < this.back[0].length; j++) {
+            const containerSize = Math.min(300, window.innerWidth * 0.7, window.innerHeight * 0.7);
+            const pipSize = containerSize / 3;
+            this.back[i][j].element.style['transform-origin'] = `${containerSize/2 - j * pipSize}px ${containerSize/2 - i * pipSize}px -${containerSize/2}px`;
+            this.back[i][j].element.style.transform = this.back[i][j].element.__ORIGINAL_TRANSFORM__ + `rotateZ(${-dir * theta}deg)`;
+          }
+        }
+      }
+
+      topTheta(theta, dir) {
+        [this.front, this.left, this.right].forEach(side => {
+          for (let i = 0; i < side.length; i++) {
+            side[0][i].element.style.transform = `rotateY(${dir * theta}deg)` + side[0][i].element.__ORIGINAL_TRANSFORM__;
+          }
+        });
+
+        for (let i = 0; i < 3; i++) {
+          this.back[2][i].element.style.transform = this.back[2][i].element.__ORIGINAL_TRANSFORM__ + `rotateY(${-dir * theta}deg)`;
+        }
+
+        for (let i = 0; i < this.top.length; i++) {
+          for (let j = 0; j < this.top[0].length; j++) {
+            const containerSize = Math.min(300, window.innerWidth * 0.7, window.innerHeight * 0.7);
+            const pipSize = containerSize / 3;
+            this.top[i][j].element.style['transform-origin'] = `${containerSize/2 - j * pipSize}px ${containerSize/2 - i * pipSize}px -${containerSize/2}px`;
+            this.top[i][j].element.style.transform = this.top[i][j].element.__ORIGINAL_TRANSFORM__ + `rotateZ(${-dir * theta}deg)`;
+          }
+        }
+      }
+
+      bottomTheta(theta, dir) {
+        [this.front, this.left, this.right].forEach(side => {
+          for (let i = 0; i < side.length; i++) {
+            side[2][i].element.style.transform = `rotateY(${dir * theta}deg)` + side[2][i].element.__ORIGINAL_TRANSFORM__;
+          }
+        });
+
+        for (let i = 0; i < 3; i++) {
+          this.back[0][i].element.style.transform = this.back[0][i].element.__ORIGINAL_TRANSFORM__ + `rotateY(${-dir * theta}deg)`;
+        }
+
+        for (let i = 0; i < this.bottom.length; i++) {
+          for (let j = 0; j < this.bottom[0].length; j++) {
+            const containerSize = Math.min(300, window.innerWidth * 0.7, window.innerHeight * 0.7);
+            const pipSize = containerSize / 3;
+            this.bottom[i][j].element.style['transform-origin'] = `${containerSize/2 - j * pipSize}px ${containerSize/2 - i * pipSize}px -${containerSize/2}px`;
+            this.bottom[i][j].element.style.transform = this.bottom[i][j].element.__ORIGINAL_TRANSFORM__ + `rotateZ(${dir * theta}deg)`;
+          }
+        }
+      }
+
+      animateLeft(dir, turns = 1) {
+        startTimer();
+        this.container.classList.add('animate');
+        this.left[0][0].element.addEventListener('transitionend', () => {
+          for (let i = 0; i < turns; i++) this.vLeft(-dir);
+          this.container.classList.remove('animate');
+          this.paint();
+          setTimeout(checkIfSolved, 100);
+        }, { once: true });
+        setTimeout(() => this.leftTheta(90 * turns, dir), 0);
+      }
+
+      animateRight(dir, turns = 1) {
+        startTimer();
+        this.container.classList.add('animate');
+        this.right[0][0].element.addEventListener('transitionend', () => {
+          for (let i = 0; i < turns; i++) this.rightMove(dir);
+          this.container.classList.remove('animate');
+          this.paint();
+          setTimeout(checkIfSolved, 100);
+        }, { once: true });
+        setTimeout(() => this.rightTheta(90 * turns, dir), 0);
+      }
+
+      animateFront(dir, turns = 1) {
+        startTimer();
+        this.container.classList.add('animate');
+        this.front[0][0].element.addEventListener('transitionend', () => {
+          for (let i = 0; i < turns; i++) this.frontMove(dir);
+          this.container.classList.remove('animate');
+          this.paint();
+          setTimeout(checkIfSolved, 100);
+        }, { once: true });
+        setTimeout(() => this.frontTheta(90 * turns, dir), 0);
+      }
+
+      animateBack(dir, turns = 1) {
+        startTimer();
+        this.container.classList.add('animate');
+        this.back[0][0].element.addEventListener('transitionend', () => {
+          this.container.classList.remove('animate');
+          for (let i = 0; i < turns; i++) this.backMove(-dir);
+          this.paint();
+          setTimeout(checkIfSolved, 100);
+        }, { once: true });
+        setTimeout(() => this.backTheta(90 * turns, dir), 0);
+      }
+
+      animateTop(dir, turns = 1) {
+        startTimer();
+        this.container.classList.add('animate');
+        this.top[0][0].element.addEventListener('transitionend', () => {
+          this.container.classList.remove('animate');
+          for (let i = 0; i < turns; i++) this.topMove(-dir);
+          this.paint();
+          setTimeout(checkIfSolved, 100);
+        }, { once: true });
+        setTimeout(() => this.topTheta(90 * turns, dir), 0);
+      }
+
+      animateBottom(dir, turns = 1) {
+        startTimer();
+        this.container.classList.add('animate');
+        this.bottom[0][0].element.addEventListener('transitionend', () => {
+          this.container.classList.remove('animate');
+          for (let i = 0; i < turns; i++) this.bottomMove(-dir);
+          this.paint();
+          setTimeout(checkIfSolved, 100);
+        }, { once: true });
+        setTimeout(() => this.bottomTheta(90 * turns, dir), 0);
+      }
+
+      shuffle() {
+        // Randomize all faces
+        this.front = createRandomFace();
+        this.left = createRandomFace();
+        this.right = createRandomFace();
+        this.top = createRandomFace();
+        this.bottom = createRandomFace();
+        this.back = createRandomFace();
+        this.paint();
+      }
+    }
+
+    function revArr(arr) {
+      const result = [];
+      for (let i = arr.length - 1; i >= 0; i--) result.push(arr[i]);
+      return result;
+    }
+
+    const cube = new Rubix();
+
+    // Initialize with shuffled state
+    cube.shuffle();
+
+    let mx = [
+      [1, 0, 0, 0],
+      [0, 1, 0, 0],
+      [0, 0, 1, 0],
+      [0, 0, 0, 1]
+    ];
+
+    let inv = [
+      [1, 0, 0, 0],
+      [0, 1, 0, 0],
+      [0, 0, 1, 0],
+      [0, 0, 0, 1]
+    ];
+
+    function mxToCSS(mx) {
+      let result = [];
+      for (let i = 0; i < 4; i++) {
+        for (let j = 0; j < 4; j++) {
+          result.push(mx[j][i]);
+        }
+      }
+      return result.join(',');
+    }
+
+    const rot = multiply(Ry(Math.PI / 3), Rx(Math.PI / 5));
+    const invrot = multiply(Rx(-Math.PI / 5), Ry(-Math.PI / 3));
+
+    mx = multiply(rot, mx);
+    inv = multiply(inv, invrot);
+
+    const containerSize = Math.min(300, window.innerWidth * 0.7, window.innerHeight * 0.7);
+    document.getElementById('container').style.transform = `matrix3d(${mxToCSS(mx)})translateZ(${containerSize/2}px)`;
+
+    let delx = 0;
+    let dely = 0;
+
+    function dragRotate(e) {
+      // Start timer on first interaction
+      startTimer();
+      
+      document.body.classList.add('grabbing');
+      let [x, y] = [e.clientX || e.touches[0].clientX, e.clientY || e.touches[0].clientY];
+      
+      function move(e) {
+        const clientX = e.clientX || e.touches[0].clientX;
+        const clientY = e.clientY || e.touches[0].clientY;
+        
+        delx = clientX - x;
+        dely = clientY - y;
+
+        const rotation = multiply(Ry(delx * .005), Rx(dely * .005));
+        const reverse = multiply(Rx(-dely * .005), Ry(-delx * .005));
+        mx = multiply(rotation, mx);
+        inv = multiply(inv, reverse);
+
+        const containerSize = Math.min(300, window.innerWidth * 0.7, window.innerHeight * 0.7);
+        document.getElementById('container').style.transform = `matrix3d(${mxToCSS(mx)})translateZ(${containerSize/2}px)`;
+        x = clientX;
+        y = clientY;
+      }
+      
+      document.addEventListener('mousemove', move);
+      document.addEventListener('touchmove', move);
+      document.addEventListener('mouseup', () => {
+        document.removeEventListener('mousemove', move);
+        document.removeEventListener('touchmove', move);
+        document.body.classList.remove('grabbing');
+      }, { once: true });
+      document.addEventListener('touchend', () => {
+        document.removeEventListener('mousemove', move);
+        document.removeEventListener('touchmove', move);
+        document.body.classList.remove('grabbing');
+      }, { once: true });
+    }
+
+    // Game control functions
+    function shuffleCube() {
+      cube.shuffle();
+      resetTimer();
+    }
+
+    function resetGame() {
+      // Reset to solved state
+      cube.front = [
+        [{ color: 'g' }, { color: 'g' }, { color: 'g' }],
+        [{ color: 'g' }, { color: 'g' }, { color: 'g' }],
+        [{ color: 'g' }, { color: 'g' }, { color: 'g' }]
+      ];
+      cube.left = [
+        [{ color: 'b' }, { color: 'b' }, { color: 'b' }],
+        [{ color: 'b' }, { color: 'b' }, { color: 'b' }],
+        [{ color: 'b' }, { color: 'b' }, { color: 'b' }]
+      ];
+      cube.right = [
+        [{ color: 'w' }, { color: 'w' }, { color: 'w' }],
+        [{ color: 'w' }, { color: 'w' }, { color: 'w' }],
+        [{ color: 'w' }, { color: 'w' }, { color: 'w' }]
+      ];
+      cube.top = [
+        [{ color: 'o' }, { color: 'o' }, { color: 'o' }],
+        [{ color: 'o' }, { color: 'o' }, { color: 'o' }],
+        [{ color: 'o' }, { color: 'o' }, { color: 'o' }]
+      ];
+      cube.bottom = [
+        [{ color: 'r' }, { color: 'r' }, { color: 'r' }],
+        [{ color: 'r' }, { color: 'r' }, { color: 'r' }],
+        [{ color: 'r' }, { color: 'r' }, { color: 'r' }]
+      ];
+      cube.back = [
+        [{ color: 'y' }, { color: 'y' }, { color: 'y' }],
+        [{ color: 'y' }, { color: 'y' }, { color: 'y' }],
+        [{ color: 'y' }, { color: 'y' }, { color: 'y' }]
+      ];
+      cube.paint();
+      resetTimer();
+      closeModal();
+    }
+
+    // Screenshot functionality
+    function takeScreenshot() {
+      document.getElementById('loading').style.display = 'block';
+      
+      setTimeout(() => {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        const gameArea = document.getElementById('perspective');
+        
+        // Set canvas size
+        canvas.width = 800;
+        canvas.height = 600;
+        
+        // Fill background
+        const gradient = ctx.createLinearGradient(0, 0, canvas.width, canvas.height);
+        gradient.addColorStop(0, '#667eea');
+        gradient.addColorStop(0.5, '#764ba2');
+        gradient.addColorStop(1, '#f093fb');
+        ctx.fillStyle = gradient;
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        
+        // Add title
+        ctx.fillStyle = '#ffffff';
+        ctx.font = 'bold 48px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('H5 Rubik Solved!', canvas.width / 2, 80);
+        
+        // Add completion time
+        const completionTime = document.getElementById('timer').textContent;
+        ctx.font = 'bold 32px Arial';
+        ctx.fillText(`Time: ${completionTime}`, canvas.width / 2, 130);
+        
+        // Add cube representation (simple colored squares)
+        const cubeX = canvas.width / 2 - 150;
+        const cubeY = 180;
+        const squareSize = 30;
+        const gap = 5;
+        
+        // Draw front face
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            ctx.fillStyle = colors[cube.front[i][j].color];
+            ctx.fillRect(
+              cubeX + j * (squareSize + gap) + 100,
+              cubeY + i * (squareSize + gap) + 100,
+              squareSize,
+              squareSize
+            );
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(
+              cubeX + j * (squareSize + gap) + 100,
+              cubeY + i * (squareSize + gap) + 100,
+              squareSize,
+              squareSize
+            );
+          }
+        }
+        
+        // Draw top face
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            ctx.fillStyle = colors[cube.top[i][j].color];
+            ctx.fillRect(
+              cubeX + j * (squareSize + gap) + 100,
+              cubeY + i * (squareSize + gap),
+              squareSize,
+              squareSize
+            );
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(
+              cubeX + j * (squareSize + gap) + 100,
+              cubeY + i * (squareSize + gap),
+              squareSize,
+              squareSize
+            );
+          }
+        }
+        
+        // Draw right face
+        for (let i = 0; i < 3; i++) {
+          for (let j = 0; j < 3; j++) {
+            ctx.fillStyle = colors[cube.right[i][j].color];
+            ctx.fillRect(
+              cubeX + j * (squareSize + gap) + 200,
+              cubeY + i * (squareSize + gap) + 100,
+              squareSize,
+              squareSize
+            );
+            ctx.strokeStyle = '#333';
+            ctx.lineWidth = 2;
+            ctx.strokeRect(
+              cubeX + j * (squareSize + gap) + 200,
+              cubeY + i * (squareSize + gap) + 100,
+              squareSize,
+              squareSize
+            );
+          }
+        }
+        
+        // Add watermark
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.8)';
+        ctx.font = 'bold 24px Arial';
+        ctx.textAlign = 'center';
+        ctx.fillText('play virtual rubik at h5rubik.com', canvas.width / 2, canvas.height - 40);
+        
+        // Add date
+        ctx.fillStyle = 'rgba(255, 255, 255, 0.6)';
+        ctx.font = '16px Arial';
+        ctx.fillText(new Date().toLocaleDateString(), canvas.width / 2, canvas.height - 15);
+        
+        // Convert to blob and download
+        canvas.toBlob(blob => {
+          const url = URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = `h5rubik-solved-${completionTime.replace(/:/g, '-').replace('.', '-')}.png`;
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+          URL.revokeObjectURL(url);
+          
+          document.getElementById('loading').style.display = 'none';
+          closeModal();
+        }, 'image/png');
+      }, 100);
+    }
+
+    // Projection and movement functions
+    function getProjection(normal, x, y) {
+      const a = normal[0][0];
+      const b = normal[1][0];
+      const c = normal[2][0];
+      const d = -150;
+      const p = 1000;
+
+      const z = (-a * x * p - b * y * p - d * p) / (c * p - a * x - b * y);
+      const realX = (p - z) / p * x;
+      const realY = (p - z) / p * y;
+
+      return multiply(inv, [[realX], [realY], [z], [1]]);
+    }
+
+    function pull(pip, face) {
+      return function (e) {
+        if (cube.container.classList.contains('animate')) {
+          console.log('wait');
+          return;
+        }
+
+        // Start timer on first cube interaction
+        startTimer();
+
+        let func = undefined;
+        let vecName = undefined;
+        let sideName = undefined;
+        let lastRotation = undefined;
+
+        const { normal } = orientations[face];
+        const newNormal = multiply(mx, normal);
+        const x = (e.clientX || e.touches[0].clientX) - window.innerWidth / 2;
+        const y = (e.clientY || e.touches[0].clientY) - window.innerHeight / 2;
+
+        const p_init_flat = [x, y];
+        const p_init = getProjection(newNormal, x, y);
+        const moves = {};
+
+        moves.yaw = p_init[1] > 0 ? 'bottom' : 'top';
+        moves.pitch = p_init[0] > 0 ? 'right' : 'left';
+        moves.roll = p_init[2] > 0 ? 'front' : 'back';
+
+        function move(e) {
+          const x = (e.clientX || e.touches[0].clientX) - window.innerWidth / 2;
+          const y = (e.clientY || e.touches[0].clientY) - window.innerHeight / 2;
+          const p = getProjection(newNormal, x, y);
+
+          const delta = [
+            p[0][0] - p_init[0][0],
+            p[1][0] - p_init[1][0],
+            p[2][0] - p_init[2][0]
+          ];
+
+          if (func) {
+            let unit = orientations[face][vecName];
+            unit = [[unit[0]], [unit[1]], [unit[2]], [1]];
+            unit = multiply(mx, unit);
+            const p_next = [p_init[0][0] + unit[0][0], p_init[1][0] + unit[1][0], p_init[2][0] + unit[2][0]];
+            const P0 = [
+              p_init[0] * 1000 / (1000 - p_init[2]),
+              p_init[1] * 1000 / (1000 - p_init[2])
+            ];
+
+            const P1 = [
+              p_next[0] * 1000 / (1000 - p_next[2]),
+              p_next[1] * 1000 / (1000 - p_next[2])
+            ];
+
+            const dir = [P1[0] - P0[0], P1[1] - P0[1]];
+            const actual = [x - p_init_flat[0], y - p_init_flat[1]];
+            const VAL = (actual[0] * dir[0] + actual[1] * dir[1]) / Math.sqrt(dir[0] * dir[0] + dir[1] * dir[1]) * .5;
+
+            func(VAL, 1);
+            lastRotation = VAL;
+            return;
+          }
+
+          if (mag2(delta) < 80) return;
+
+          const options = [];
+          ['roll', 'pitch', 'yaw'].forEach(vecName => {
+            const vec = orientations[face][vecName];
+            if (!vec) return;
+            options.push({ name: vecName, val: scalarProj(delta, vec) });
+          });
+
+          let max = undefined;
+          options.forEach(option => {
+            if (typeof max === 'undefined') { max = option; return; }
+            if (Math.abs(option.val) > Math.abs(max.val)) max = option;
+          });
+
+          vecName = max.name;
+
+          let unit = orientations[face][vecName];
+          unit = [[unit[0]], [unit[1]], [unit[2]], [1]];
+          unit = multiply(mx, unit);
+          const p_next = [p_init[0][0] + unit[0][0], p_init[1][0] + unit[1][0], p_init[2][0] + unit[2][0]];
+          const P0 = [
+            p_init[0] * 1000 / (1000 - p_init[2]),
+            p_init[1] * 1000 / (1000 - p_init[2])
+          ];
+
+          const P1 = [
+            p_next[0] * 1000 / (1000 - p_next[2]),
+            p_next[1] * 1000 / (1000 - p_next[2])
+          ];
+
+          const dir = [P1[0] - P0[0], P1[1] - P0[1]];
+          const actual = [x - p_init_flat[0], y - p_init_flat[1]];
+          const VAL = (actual[0] * dir[0] + actual[1] * dir[1]) / Math.sqrt(dir[0] * dir[0] + dir[1] * dir[1]) * .5;
+
+          sideName = moves[vecName];
+          func = cube[`${moves[vecName]}Theta`].bind(cube);
+          func(VAL, 1);
+          lastRotation = VAL;
+        }
+
+        document.addEventListener('mousemove', move);
+        document.addEventListener('touchmove', move);
+        document.addEventListener('mouseup', () => {
+          document.removeEventListener('mousemove', move);
+          document.removeEventListener('touchmove', move);
+          if (!sideName) return;
+
+          const cap = sideName[0].toUpperCase() + sideName.slice(1);
+          const snapTheta = Math.round(lastRotation / 90);
+          const animate = cube[`animate${cap}`].bind(cube);
+          animate(snapTheta < 0 ? -1 : 1, Math.abs(snapTheta));
+        }, { once: true });
+        document.addEventListener('touchend', () => {
+          document.removeEventListener('mousemove', move);
+          document.removeEventListener('touchmove', move);
+          if (!sideName) return;
+
+          const cap = sideName[0].toUpperCase() + sideName.slice(1);
+          const snapTheta = Math.round(lastRotation / 90);
+          const animate = cube[`animate${cap}`].bind(cube);
+          animate(snapTheta < 0 ? -1 : 1, Math.abs(snapTheta));
+        }, { once: true });
+      };
+    }
+
+    function dotprod(a, b) {
+      return a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    }
+
+    function mag2(vec) {
+      return vec[0] * vec[0] + vec[1] * vec[1] + vec[2] * vec[2];
+    }
+
+    function scalarProj(a, unitVec) {
+      return dotprod(a, unitVec);
+    }
+
+    // Handle window resize
+    window.addEventListener('resize', () => {
+      const containerSize = Math.min(300, window.innerWidth * 0.7, window.innerHeight * 0.7);
+      document.getElementById('container').style.transform = `matrix3d(${mxToCSS(mx)})translateZ(${containerSize/2}px)`;
+      cube.paint();
+    });
+
+    // Touch support for mobile
+    document.addEventListener('touchstart', e => e.preventDefault(), { passive: false });
+    document.addEventListener('touchmove', e => e.preventDefault(), { passive: false });
+  </script>
+</body>
+</html>

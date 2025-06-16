@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en" prefix="og: https://ogp.me/ns#" itemscope="itemscope" itemtype="https://schema.org/WebSite">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>How to Play Virtual Rubik's Game</title>
+  <meta name="description" content="3d virtual rubik cube online game, sharpen your rubik skills here, free without login">
+  <meta name="keywords" content="Play 3D Rubik, rubik cube online, rubik game, virtual rubik, rubiks cube 3x3, rubikcube game, online rubik, rubikcube online, magic cube online, rubik's cube online, rubik puzzles online, rubik cube solver online, html game, html canvas game, canvas html game, canvas html5 game, html game canvas, html game code, html canvas tag, html5 mario">
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://gamezz.pages.dev/">
+  <meta property="og:title" content="Play 3D Virtual Rubik's Cube Online Game">
+  <meta property="og:image" content="3d-virtual-rubik.png">
+  <meta property="og:description" content="3d virtual rubik cube online game, sharpen your rubik skills here, free without login">
+  <meta property="og:site_name" content="3D Virtual Rubik's">
+  
+  <!-- Twitter -->
+  <meta name="twitter:site" content="@thepracticaldev">
+  <meta name="twitter:title" content="Play 3D Virtual Rubik's Cube Online Game">
+  <meta name="twitter:description" content="3d virtual rubik cube online game, sharpen your rubik skills here, free without login">
+  <meta name="twitter:image:src" content="https://gamezz.pages.dev/Pictures/splash.png">
+  <meta name="twitter:card" content="summary_large_image">
+  
+  <!-- Robots & Canonical -->
+  <meta name="robots" content="NOODP,INDEX,FOLLOW,max-snippet:-1,max-image-preview:large,max-video-preview:-1">
+  <link rel="canonical" href="https://gamezz.pages.dev/">
+  <link rel="dns-prefetch" href="//gamezz.pages.dev">
+  <link rel="preconnect" href="//pagead2.googlesyndication.com">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="3d-virtual-rubik.png">
+  <link rel="apple-touch-icon" href="3d-virtual-rubik.png">
+  <link rel="apple-touch-icon" sizes="152x152" href="3d-virtual-rubik.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="3d-virtual-rubik.png">
+  <link rel="apple-touch-icon" sizes="167x167" href="3d-virtual-rubik.png">
+  
+  <!-- Theme Colors -->
+  <meta name="apple-mobile-web-app-title" content="3D Virtual Rubik's">
+  <meta name="application-name" content="3D Virtual Rubik's">
+  <meta name="theme-color" content="#1a2735" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1620" media="(prefers-color-scheme: dark)">
+  <script type='application/ld+json'>
+{
+  "@context": "https://schema.org",
+  "@type": "Game",
+  "name": "3D Virtual Rubik's",
+  "description": "3d virtual rubik cube online game, sharpen your rubik skills here, free without login",
+  "image": "3d-virtual-rubik.png",
+  "url": "https://example.com/3d-rubik-cube",
+  "creator": {
+    "@type": "Person",
+    "name": "hendygital"
+  },
+  "genre": "Puzzle",
+  "keywords": "Play 3D Rubik, rubik cube online, rubik game, virtual rubik, rubiks cube 3x3, rubikcube game, online rubik, rubikcube online, magic cube online, rubik's cube online, rubik puzzles online, rubik cube solver online, html game, html canvas game, canvas html game, canvas html5 game, html game canvas, html game code, html canvas tag, html5 mario",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "USD",
+    "price": "0.00",
+    "itemCondition": "https://schema.org/NewCondition",
+    "availability": "https://schema.org/InStock"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "ratingCount": "475"
+  }
+}
+</script>
+<script type='application/ld+json'>
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "EASIEST WAY TO SOLVE THE 3x3 RUBIK'S CUBE | VERY DETAILED",
+  "description": "Watch tutorial of the 3D Virtual Rubik's 3x3 cube and learn tips and tricks to solve it.",
+  "thumbnailUrl": "https://i.ytimg.com/vi/aTG-M98z4R4/maxresdefault.jpg",
+  "uploadDate": "2025-06-16",
+  "duration": "PT37M12S",
+  "contentUrl": "https://www.youtube.com/watch?v=aTG-M98z4R4&pp=ygUScnViaWsgM3gzIHR1dG9yaWFs",
+  "embedUrl": "https://www.youtube.com/embed/aTG-M98z4R4",
+  "interactionStatistic": {
+    "@type": "InteractionCounter",
+    "interactionType": "https://schema.org/WatchAction",
+    "userInteractionCount": 171000
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Hendygital",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "3d-virtual-rubik.png"
+    }
+  }
+}
+</script>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      transform-style: preserve-3d;
+    }
+
+    body, html {
+      height: 100%;
+      width: 100%;
+      overflow: hidden;
+      font-family: 'Arial', sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
+      background-attachment: fixed;
+    }
+
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .ui-container {
+    position: fixed;
+    top: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1000;
+    display: flex;
+    flex-direction: column; /* Mengatur arah flex menjadi kolom */
+    gap: 10px;
+    align-items: flex-start; /* Menyelaraskan item ke kiri */
+    background: rgba(255, 255, 255, 0.95);
+    padding: 15px 25px;
+    border-radius: 20px;
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+    backdrop-filter: blur(15px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    word-wrap: break-word; /* Memungkinkan teks untuk terurai */
+}
+
+    .timer {
+      font-size: 32px;
+      font-weight: bold;
+      min-width: 180px;
+      font-family: 'Courier New', monospace;
+      background: linear-gradient(145deg, #1a1a1a, #000);
+      color: #00ff41;
+      padding: 12px 16px;
+      border-radius: 12px;
+      border: 3px solid #333;
+      box-shadow: 
+        inset 0 0 20px rgba(0, 255, 65, 0.4),
+        0 0 20px rgba(0, 255, 65, 0.2),
+        0 4px 15px rgba(0, 0, 0, 0.3);
+      text-shadow: 
+        0 0 10px #00ff41,
+        0 0 20px #00ff41,
+        0 0 30px #00ff41;
+      letter-spacing: 3px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .timer::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(0, 255, 65, 0.1), transparent);
+      animation: scanline 2s infinite;
+    }
+
+    @keyframes scanline {
+      0% { left: -100%; }
+      100% { left: 100%; }
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+    }
+
+   .btn {
+    padding: 12px 10px; /* Kurangi padding samping jika perlu */
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap; /* Mencegah teks berpindah ke baris baru */
+    text-align: center; /* Menyelaraskan teks di tengah */
+    display: inline-block; /* Agar tombol menyesuaikan dengan konten */
+    margin: 0; /* Pastikan tidak ada margin tambahan */
+}
+
+
+.play .btns {
+    padding: 12px 10px; /* Kurangi padding samping jika perlu */
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap; /* Mencegah teks berpindah ke baris baru */
+    text-align: center; /* Menyelaraskan teks di tengah */
+    display: inline-block; /* Agar tombol menyesuaikan dengan konten */
+    margin: 0; /* Pastikan tidak ada margin tambahan */
+}
+    .btn:hover {
+      background: linear-gradient(145deg, #5a6fd8, #6a4190);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
+    }
+
+    .btn:active {
+      transform: translateY(-1px);
+    }
+
+    .instructions {
+      position: fixed;
+      bottom: 20px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 12px 24px;
+      border-radius: 15px;
+      text-align: center;
+      font-size: 14px;
+      z-index: 1000;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+      backdrop-filter: blur(10px);
+    }
+
+    .grabbing {
+      cursor: url('https://www.google.com/intl/en_ALL/mapfiles/closedhand.cur'), pointer;
+      cursor: grabbing;
+    }
+
+    .grabbing * {
+      cursor: url('https://www.google.com/intl/en_ALL/mapfiles/closedhand.cur'), pointer;
+      cursor: grabbing;
+    }
+
+    .grab:hover {
+      cursor: url('https://www.google.com/intl/en_ALL/mapfiles/openhand.cur'), pointer;
+      cursor: grab;
+    }
+
+    .move:hover {
+      cursor: move;
+    }
+
+    #container {
+      height: min(300px, 70vw);
+      width: min(300px, 70vw);
+      transform-style: preserve-3d;
+    }
+
+    #perspective {
+      perspective: 1000px;
+      height: min(300px, 70vw);
+      width: min(300px, 70vw);
+      transform-style: preserve-3d;
+    }
+
+    .side {
+      height: 100%;
+      width: 100%;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-around;
+      align-items: center;
+      position: absolute;
+      transform-style: preserve-3d;
+    }
+
+    .pip {
+      height: calc(100% / 3);
+      width: calc(100% / 3);
+      flex-shrink: 0;
+      transform-style: preserve-3d;
+      border: none;
+      outline: none;
+      position: relative;
+    }
+
+    #container.animate .pip {
+      transition: .3s;
+    }
+
+    .pip > div:first-child {
+      height: 90%;
+      width: 90%;
+      border-radius: 8px;
+      transform: translateZ(8px);
+      position: relative;
+      box-shadow: 
+        0 0 0 2px rgba(0, 0, 0, 0.2),
+        0 4px 8px rgba(0, 0, 0, 0.3),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.2);
+      border: 1px solid rgba(0, 0, 0, 0.1);
+    }
+
+    .pip > div:first-child::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: linear-gradient(135deg, rgba(255, 255, 255, 0.2) 0%, transparent 50%, rgba(0, 0, 0, 0.1) 100%);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+
+    .pip > div:last-child {
+      background: #1a1a1a;
+      position: absolute;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      transform: rotateX(180deg) translateZ(8px);
+      backface-visibility: visible !important;
+      border-radius: 8px;
+      box-shadow: 
+        0 0 0 2px rgba(0, 0, 0, 0.4),
+        inset 0 0 10px rgba(0, 0, 0, 0.5);
+    }
+
+    /* Enhanced color gradients for 3D effect */
+    .pip > div:first-child.red-face {
+      background: linear-gradient(135deg, #ff4444 0%, #cc0000 50%, #990000 100%);
+    }
+
+    .pip > div:first-child.green-face {
+      background: linear-gradient(135deg, #44ff44 0%, #00cc00 50%, #009900 100%);
+    }
+
+    .pip > div:first-child.blue-face {
+      background: linear-gradient(135deg, #4444ff 0%, #0000cc 50%, #000099 100%);
+    }
+
+    .pip > div:first-child.orange-face {
+      background: linear-gradient(135deg, #ffaa44 0%, #ff6600 50%, #cc4400 100%);
+    }
+
+    .pip > div:first-child.white-face {
+      background: linear-gradient(135deg, #ffffff 0%, #eeeeee 50%, #cccccc 100%);
+    }
+
+    .pip > div:first-child.yellow-face {
+      background: linear-gradient(135deg, #ffff44 0%, #ffcc00 50%, #cc9900 100%);
+    }
+
+    /* Modal Styles */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.8);
+      z-index: 2000;
+      justify-content: center;
+      align-items: center;
+      backdrop-filter: blur(5px);
+    }
+
+    .modal-content {
+      background: linear-gradient(145deg, #ffffff, #f8f9fa);
+      padding: 40px;
+      border-radius: 25px;
+      text-align: center;
+      max-width: 450px;
+      margin: 20px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .modal h2 {
+      color: #333;
+      margin-bottom: 20px;
+      font-size: 32px;
+      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    .modal p {
+      color: #666;
+      margin-bottom: 25px;
+      font-size: 18px;
+      line-height: 1.5;
+    }
+
+    .modal-buttons {
+      display: flex;
+      gap: 15px;
+      justify-content: center;
+    }
+
+    .modal .btn {
+      padding: 15px 30px;
+      font-size: 16px;
+      border-radius: 15px;
+    }
+
+    .btn-success {
+      background: linear-gradient(145deg, #28a745, #20903d);
+      box-shadow: 0 4px 15px rgba(40, 167, 69, 0.3);
+    }
+
+    .btn-success:hover {
+      background: linear-gradient(145deg, #248a3d, #1e7e34);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(40, 167, 69, 0.4);
+    }
+
+    .btn-secondary {
+      background: linear-gradient(145deg, #6c757d, #5a6268);
+      box-shadow: 0 4px 15px rgba(108, 117, 125, 0.3);
+    }
+
+    .btn-secondary:hover {
+      background: linear-gradient(145deg, #5a6268, #495057);
+      transform: translateY(-3px);
+      box-shadow: 0 6px 20px rgba(108, 117, 125, 0.4);
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      .ui-container {
+        top: 15px;
+        padding: 12px 20px;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .timer {
+        font-size: 28px;
+        min-width: 160px;
+        padding: 10px 14px;
+      }
+
+      #container, #perspective {
+        height: min(300px, 80vw);
+        width: min(300px, 80vw);
+      }
+
+      .instructions {
+        bottom: 15px;
+        font-size: 13px;
+        padding: 10px 20px;
+      }
+
+      .modal-content {
+        margin: 15px;
+        padding: 30px;
+      }
+
+      .modal h2 {
+        font-size: 28px;
+      }
+
+      .modal-buttons {
+        flex-direction: column;
+      }
+    }
+
+    @media (max-width: 480px) {
+      #container, #perspective {
+        height: 250px;
+        width: 250px;
+      }
+
+      .ui-container {
+        width: 90%;
+        max-width: 320px;
+      }
+
+      .timer {
+        font-size: 24px;
+        min-width: 140px;
+        padding: 8px 12px;
+      }
+    }
+
+    /* Loading animation */
+    .loading {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 3000;
+      color: white;
+      font-size: 18px;
+      background: rgba(0, 0, 0, 0.9);
+      padding: 25px;
+      border-radius: 15px;
+      display: none;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+    }
+
+    /* Ambient lighting effect */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+      z-index: 1;
+    }
+.play {
+    display: block; /* Pastikan gambar dalam blok untuk pusatkan tombol */
+    margin: 0 auto; /* Pusatkan gambar */
+}
+
+.play .btns {
+    padding: 12px 10px; /* Padding tombol */
+    border: none;
+    border-radius: 12px;
+    background: linear-gradient(145deg, #667eea, #764ba2);
+    color: white;
+    cursor: pointer;
+    font-weight: bold;
+    font-size: 2rem; /* Ukuran teks responsif */
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    white-space: nowrap; /* Mencegah teks berpindah ke baris baru */
+    text-align: center; /* Menyelaraskan teks di tengah */
+    display: inline-block; /* Agar tombol menyesuaikan dengan konten */
+    margin: 0; /* Pastikan tidak ada margin tambahan */
+}
+
+.playimg {
+    display: flex; /* Menggunakan flexbox */
+    flex-direction: column; /* Arah kolom */
+    align-items: center; /* Pusatkan secara horizontal */
+    justify-content: center; /* Pusatkan secara vertikal */
+    height: 100vh; /* Sesuaikan tinggi kontainer */
+}	
+  </style>
+</head>
+
+<body>
+  <div class="ui-container">
+    
+    <div class="controls">
+	
+      <a href="/"><button class="btn">🏠</button></a>
+       <a href="about-us"><button class="btn">About Us</button></a>
+	    <a href="how-to-play"><button class="btn">How To</button></a>
+	     <a href="disclaimer"><button class="btn">Disclaimer</button></a>
+		  <a href="privacy-policy"><button class="btn">Privacy</button></a>
+		   <a href="terms-of-service"><button class="btn">TOS</button></a>
+		   <a href="contact-us"><button class="btn">Contact</button></a>
+	
+    </div>
+<h2>How To Play</h2>
+<p>Welcome to "Virtual Rubik"! Here’s a quick guide to get you started:</p>
+<ol>
+<li>
+<p><strong>Drag Corners to Move Sides</strong></p>
+<ul>
+<li>Click and drag the corner pieces to rotate the adjacent sides of the cube.</li>
+</ul>
+</li>
+<li>
+<p><strong>Drag Center to Rotate Cube</strong></p>
+<ul>
+<li>Click and hold the center pieces to turn the entire cube, allowing you to view it from different angles.</li>
+</ul>
+</li>
+<li>
+<p><strong>Solve to Get Your Score!</strong></p>
+<ul>
+<li>Aim to solve the cube as quickly as possible to earn points. The faster you solve it, the higher your score!</li>
+</ul>
+</li>
+</ol>
+<p>Enjoy the challenge and have fun improving your Rubik's Cube skills!</p>
+ <div class="content">
+ 
+ </div>
+
+ 
+
+  <!-- Success Modal -->
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <h2>🎉 Congratulations!</h2>
+      <p id="completionMessage">You solved the Rubik's Cube!</p>
+      <div class="modal-buttons">
+        <button class="btn btn-success" onclick="takeScreenshot()">📸 Screenshot & Download</button>
+        <button class="btn btn-secondary" onclick="closeModal()">Continue Playing</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="loading" class="loading">Taking screenshot...</div>
+
+  <script>
+   
+  </script>
+</body>
+</html>
