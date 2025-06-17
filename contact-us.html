@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us Virtual Rubik's Cube Game</title>
+  <title>Contact Us</title>
   <script src="https://cdn.tailwindcss.com"></script>
     <script>
         tailwind.config = {
@@ -41,25 +41,96 @@
 
     .ui-container {
       position: fixed;
-      top: 20px;
+      top: 15px;
       left: 50%;
       transform: translateX(-50%);
       z-index: 1000;
-      display: flex;
-      flex-direction: column;
-      gap: 10px;
-      align-items: flex-start;
       background: rgba(255, 255, 255, 0.95);
       border-radius: 20px;
       box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
       backdrop-filter: blur(15px);
       border: 1px solid rgba(255, 255, 255, 0.2);
-      word-wrap: break-word;
+      width: 95%;
+      max-width: 600px;
+    }
+
+    .burger-menu {
+      position: relative;
+      width: 100%;
+    }
+
+    .burger-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(145deg, #667eea, #764ba2);
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+    }
+
+    .burger-btn span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 2px 0;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+
+    .burger-btn.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .burger-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .burger-btn.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .main-ui {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: center;
+      padding: 15px 20px;
+      flex-wrap: wrap;
+    }
+
+    .menu-dropdown {
+      position: absolute;
+      top: 100%;
+      left: 0;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       padding: 15px;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .menu-dropdown.show {
+      display: flex;
     }
 
     .main-content {
-      margin-top: 120px;
+      margin-top: clamp(90px, 15vh, 120px);
       padding: 20px;
       flex: 1;
       display: flex;
@@ -71,19 +142,20 @@
 
     .controls {
       display: flex;
-      gap: 12px;
+      gap: 8px;
       flex-wrap: wrap;
+      justify-content: center;
     }
 
     .btn {
-      padding: 12px 10px;
+      padding: clamp(8px, 2vw, 12px) clamp(8px, 2.5vw, 12px);
       border: none;
       border-radius: 12px;
       background: linear-gradient(145deg, #667eea, #764ba2);
       color: white;
       cursor: pointer;
       font-weight: bold;
-      font-size: 14px;
+      font-size: clamp(11px, 2.5vw, 14px);
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
       text-transform: uppercase;
@@ -92,6 +164,11 @@
       text-align: center;
       display: inline-block;
       margin: 0;
+      text-decoration: none;
+      min-height: 40px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .btn:hover {
@@ -145,10 +222,11 @@
 
     .modal-content {
       background: linear-gradient(145deg, #ffffff, #f8f9fa);
-      padding: 40px;
+      padding: clamp(20px, 5vw, 40px);
       border-radius: 25px;
       text-align: center;
-      max-width: 450px;
+      max-width: 90%;
+      width: 450px;
       margin: 20px;
       box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
       border: 1px solid rgba(255, 255, 255, 0.2);
@@ -157,14 +235,14 @@
     .modal h2 {
       color: #333;
       margin-bottom: 20px;
-      font-size: 32px;
+      font-size: clamp(20px, 5vw, 32px);
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     }
 
     .modal p {
       color: #666;
       margin-bottom: 25px;
-      font-size: 18px;
+      font-size: clamp(14px, 3vw, 18px);
       line-height: 1.5;
     }
 
@@ -172,12 +250,15 @@
       display: flex;
       gap: 15px;
       justify-content: center;
+      flex-wrap: wrap;
     }
 
     .modal .btn {
-      padding: 15px 30px;
-      font-size: 16px;
+      padding: clamp(10px, 3vw, 15px) clamp(16px, 4vw, 30px);
+      font-size: clamp(12px, 3vw, 16px);
       border-radius: 15px;
+      flex: 1;
+      min-width: 100px;
     }
 
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
@@ -226,27 +307,25 @@
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
     }
 
-    /* Responsive Design */
+    /* Mobile Optimizations */
     @media (max-width: 768px) {
+      .burger-btn {
+        display: flex;
+      }
+
+      .main-ui {
+        display: none;
+      }
+
       .ui-container {
-        top: 15px;
-        padding: 12px 16px;
-        width: 95%;
-        max-width: 350px;
+        top: 10px;
+        width: 98%;
+        max-width: none;
       }
 
       .main-content {
-        margin-top: 100px;
+        margin-top: 80px;
         padding: 15px;
-      }
-
-      .controls {
-        gap: 8px;
-      }
-
-      .btn {
-        padding: 10px 8px;
-        font-size: 12px;
       }
 
       .form-container {
@@ -254,30 +333,35 @@
       }
 
       .glass-effect {
-        padding: 20px;
+        padding: clamp(16px, 4vw, 24px);
       }
 
-      .modal-content {
-        margin: 15px;
-        padding: 30px;
+      .intro-text {
+        padding: clamp(16px, 4vw, 20px);
+        font-size: clamp(14px, 3.5vw, 16px);
       }
     }
 
     @media (max-width: 480px) {
       .ui-container {
-        width: 98%;
-        max-width: 320px;
-        padding: 10px 12px;
+        top: 8px;
+        width: 99%;
       }
 
       .main-content {
-        margin-top: 90px;
+        margin-top: 70px;
         padding: 10px;
       }
 
-      .btn {
-        padding: 8px 6px;
-        font-size: 11px;
+      .burger-btn {
+        width: 45px;
+        height: 45px;
+        right: 12px;
+      }
+
+      .burger-btn span {
+        width: 20px;
+        height: 2px;
       }
 
       .glass-effect {
@@ -286,7 +370,55 @@
 
       .intro-text {
         padding: 16px;
-        font-size: 16px;
+        font-size: 14px;
+      }
+
+      .modal-buttons {
+        flex-direction: column;
+      }
+
+      .modal .btn {
+        min-width: auto;
+        width: 100%;
+      }
+    }
+
+    @media (max-width: 320px) {
+      .ui-container {
+        top: 5px;
+      }
+
+      .main-content {
+        margin-top: 60px;
+        padding: 8px;
+      }
+
+      .glass-effect {
+        padding: 12px;
+      }
+    }
+
+    /* Form responsive improvements */
+    @media (max-width: 768px) {
+      .form-input {
+        font-size: 16px !important; /* Prevent zoom on iOS */
+        padding: clamp(12px, 3vw, 16px);
+      }
+      
+      textarea.form-input {
+        min-height: 100px;
+      }
+    }
+
+    /* Touch improvements */
+    @media (hover: none) and (pointer: coarse) {
+      .btn {
+        min-height: 44px;
+        min-width: 44px;
+      }
+      
+      .form-input {
+        min-height: 44px;
       }
     }
 
@@ -307,14 +439,32 @@
 
 <body>
   <div class="ui-container">
-    <div class="controls">
-      <a href="/"><button class="btn">🏠</button></a>
-      <a href="about-us"><button class="btn">About Us</button></a>
-      <a href="how-to-play"><button class="btn">How To</button></a>
-      <a href="disclaimer"><button class="btn">Disclaimer</button></a>
-      <a href="privacy-policy"><button class="btn">Privacy</button></a>
-      <a href="terms-of-service"><button class="btn">TOS</button></a>
-      <a href="contact-us"><button class="btn">Contact</button></a>
+    <div class="burger-menu">
+      <button class="burger-btn" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <div class="main-ui">
+        <a href="/" class="btn">🏠</a>
+        <a href="about-us" class="btn">About Us</a>
+        <a href="how-to-play" class="btn">How To</a>
+        <a href="disclaimer" class="btn">Disclaimer</a>
+        <a href="privacy-policy" class="btn">Privacy</a>
+        <a href="terms-of-service" class="btn">TOS</a>
+        <a href="contact-us" class="btn">Contact</a>
+      </div>
+
+      <div class="menu-dropdown" id="menuDropdown">
+        <a href="/" class="btn">🏠 Home</a>
+        <a href="about-us" class="btn">About Us</a>
+        <a href="how-to-play" class="btn">How To Play</a>
+        <a href="disclaimer" class="btn">Disclaimer</a>
+        <a href="privacy-policy" class="btn">Privacy Policy</a>
+        <a href="terms-of-service" class="btn">Terms of Service</a>
+        <a href="contact-us" class="btn">Contact Us</a>
+      </div>
     </div>
   </div>
 
@@ -433,6 +583,27 @@
   </div>
 
   <script>
+    // Burger menu functionality
+    function toggleMenu() {
+      const burgerBtn = document.querySelector('.burger-btn');
+      const menuDropdown = document.getElementById('menuDropdown');
+      
+      burgerBtn.classList.toggle('active');
+      menuDropdown.classList.toggle('show');
+    }
+
+    // Close menu when clicking outside
+    document.addEventListener('click', function(event) {
+      const burgerMenu = document.querySelector('.burger-menu');
+      const menuDropdown = document.getElementById('menuDropdown');
+      const burgerBtn = document.querySelector('.burger-btn');
+      
+      if (!burgerMenu.contains(event.target)) {
+        menuDropdown.classList.remove('show');
+        burgerBtn.classList.remove('active');
+      }
+    });
+
     // Dark mode detection
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
         document.documentElement.classList.add('dark');
@@ -516,6 +687,16 @@
             hideModal();
         }
     });
+
+    // Handle viewport height changes on mobile
+    function handleViewportChange() {
+      let vh = window.innerHeight * 0.01;
+      document.documentElement.style.setProperty('--vh', `${vh}px`);
+    }
+
+    window.addEventListener('resize', handleViewportChange);
+    window.addEventListener('orientationchange', handleViewportChange);
+    handleViewportChange();
   </script>
 </body>
 </html>
