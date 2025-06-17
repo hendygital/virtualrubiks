@@ -1,28 +1,32 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" prefix="og: https://ogp.me/ns#" itemscope="itemscope" itemtype="https://schema.org/WebSite">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contact Us</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-    <script>
-        tailwind.config = {
-            theme: {
-                extend: {
-                    colors: {
-                        primary: '#5D5CDE',
-                        'primary-dark': '#4B49C7',
-                    }
-                }
-            }
-        }
-    </script>
+<meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Contact Us - 3D Virtual Rubik's Cube Online Game</title>
+  <meta name="description" content="Contact us for support, feedback, or questions about the 3D Virtual Rubik's Cube game">
+  <meta name="keywords" content="contact us, rubik cube support, virtual rubik contact, feedback, help">
+  
+  <!-- Open Graph / Social Media -->
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://rubiksgame.pages.dev/contact-us">
+  <meta property="og:title" content="Contact Us - 3D Virtual Rubik's Cube">
+  <meta property="og:description" content="Contact us for support, feedback, or questions about the 3D Virtual Rubik's Cube game">
+  <meta property="og:site_name" content="3D Virtual Rubik's">
+  
+  <!-- Favicons -->
+  <link rel="icon" type="image/png" href="https://rubiksgame.pages.dev/3d-virtual-rubik.png">
+  <link rel="apple-touch-icon" href="https://rubiksgame.pages.dev/3d-virtual-rubik.png">
+  
+  <!-- Theme Colors -->
+  <meta name="theme-color" content="#1a2735" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#0d1620" media="(prefers-color-scheme: dark)">
+  
   <style>
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      transform-style: preserve-3d;
     }
 
     body, html {
@@ -31,6 +35,7 @@
       font-family: 'Arial', sans-serif;
       background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
       background-attachment: fixed;
+      line-height: 1.6;
     }
 
     body {
@@ -39,123 +44,53 @@
       min-height: 100vh;
     }
 
-    .ui-container {
-      position: fixed;
-      top: 15px;
-      left: 50%;
-      transform: translateX(-50%);
+    /* Header Navigation */
+    .header {
+      position: sticky;
+      top: 0;
       z-index: 1000;
       background: rgba(255, 255, 255, 0.95);
-      border-radius: 20px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
       backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      width: 95%;
-      max-width: 600px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+      box-shadow: 0 2px 20px rgba(0, 0, 0, 0.1);
     }
 
-    .burger-menu {
-      position: relative;
-      width: 100%;
-    }
-
-    .burger-btn {
-      display: none;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      width: 50px;
-      height: 50px;
-      background: linear-gradient(145deg, #667eea, #764ba2);
-      border: none;
-      border-radius: 15px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-      position: absolute;
-      right: 15px;
-      top: 50%;
-      transform: translateY(-50%);
-    }
-
-    .burger-btn span {
-      width: 25px;
-      height: 3px;
-      background: white;
-      margin: 2px 0;
-      transition: all 0.3s ease;
-      border-radius: 2px;
-    }
-
-    .burger-btn.active span:nth-child(1) {
-      transform: rotate(45deg) translate(5px, 5px);
-    }
-
-    .burger-btn.active span:nth-child(2) {
-      opacity: 0;
-    }
-
-    .burger-btn.active span:nth-child(3) {
-      transform: rotate(-45deg) translate(7px, -6px);
-    }
-
-    .main-ui {
+    .nav-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 20px;
       display: flex;
-      gap: 12px;
+      justify-content: space-between;
       align-items: center;
-      justify-content: center;
-      padding: 15px 20px;
-      flex-wrap: wrap;
+      height: 70px;
     }
 
-    .menu-dropdown {
-      position: absolute;
-      top: 100%;
-      left: 0;
-      right: 0;
-      background: rgba(255, 255, 255, 0.95);
-      border-radius: 15px;
-      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-      backdrop-filter: blur(15px);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      padding: 15px;
-      display: none;
-      flex-direction: column;
+    .logo {
+      font-size: 24px;
+      font-weight: bold;
+      color: #667eea;
+      text-decoration: none;
+    }
+
+    .nav-menu {
+      display: flex;
       gap: 10px;
-      margin-top: 10px;
+      list-style: none;
     }
 
-    .menu-dropdown.show {
-      display: flex;
-    }
-
-    .main-content {
-      margin-top: clamp(90px, 15vh, 120px);
-      padding: 20px;
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      min-height: calc(100vh - 120px);
-    }
-
-    .controls {
-      display: flex;
-      gap: 8px;
-      flex-wrap: wrap;
-      justify-content: center;
+    .nav-menu a {
+      text-decoration: none;
     }
 
     .btn {
-      padding: clamp(8px, 2vw, 12px) clamp(8px, 2.5vw, 12px);
+      padding: 12px 16px;
       border: none;
       border-radius: 12px;
       background: linear-gradient(145deg, #667eea, #764ba2);
       color: white;
       cursor: pointer;
       font-weight: bold;
-      font-size: clamp(11px, 2.5vw, 14px);
+      font-size: 14px;
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
       text-transform: uppercase;
@@ -163,9 +98,8 @@
       white-space: nowrap;
       text-align: center;
       display: inline-block;
-      margin: 0;
       text-decoration: none;
-      min-height: 40px;
+      min-height: 44px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -173,36 +107,172 @@
 
     .btn:hover {
       background: linear-gradient(145deg, #5a6fd8, #6a4190);
-      transform: translateY(-3px);
+      transform: translateY(-2px);
       box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
     }
 
     .btn:active {
-      transform: translateY(-1px);
+      transform: translateY(0);
     }
 
-    .form-container {
+    /* Burger Menu */
+    .burger {
+      display: none;
+      flex-direction: column;
+      cursor: pointer;
+      padding: 10px;
+      z-index: 1001;
+    }
+
+    .burger span {
+      width: 25px;
+      height: 3px;
+      background: #667eea;
+      margin: 3px 0;
+      transition: 0.3s;
+      border-radius: 2px;
+    }
+
+    .burger.active span:nth-child(1) {
+      transform: rotate(-45deg) translate(-5px, 6px);
+    }
+
+    .burger.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .burger.active span:nth-child(3) {
+      transform: rotate(45deg) translate(-5px, -6px);
+    }
+
+    /* Mobile Menu */
+    .mobile-menu {
+      display: none;
+      position: fixed;
+      top: 70px;
+      left: 0;
       width: 100%;
-      max-width: 600px;
-      margin: 0 auto;
+      background: rgba(255, 255, 255, 0.98);
+      backdrop-filter: blur(15px);
+      z-index: 999;
+      box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+      transform: translateY(-100%);
+      transition: transform 0.3s ease;
     }
 
-    .glass-effect {
-      background: rgba(255, 255, 255, 0.95);
+    .mobile-menu.active {
+      transform: translateY(0);
+    }
+
+    .mobile-menu-items {
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      gap: 15px;
+    }
+
+    /* Main Content */
+    .main-content {
+      flex: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 40px 20px;
+      width: 100%;
+    }
+
+    .content {
+      background: #fff;
+      padding: 40px;
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
       backdrop-filter: blur(15px);
       border: 1px solid rgba(255, 255, 255, 0.2);
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      line-height: 1.8;
     }
 
-    .dark .glass-effect {
-      background: rgba(24, 24, 24, 0.95);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+    .content h2 {
+      color: #333;
+      margin-bottom: 30px;
+      font-size: 32px;
+      text-align: center;
+      background: linear-gradient(145deg, #667eea, #764ba2);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .content p {
+      color: #555;
+      margin-bottom: 20px;
+      font-size: 16px;
+      text-align: justify;
+    }
+
+    /* Form Styling */
+    .form-group {
+      margin-bottom: 25px;
+    }
+
+    .form-group label {
+      display: block;
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 600;
+      font-size: 14px;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 15px;
+      border: 2px solid #e1e5e9;
+      border-radius: 12px;
+      font-size: 16px;
+      background: rgba(255, 255, 255, 0.9);
+      transition: all 0.3s ease;
+      backdrop-filter: blur(10px);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: #667eea;
+      box-shadow: 0 0 0 3px rgba(102, 126, 234, 0.1);
+    }
+
+    .submit-btn {
+      width: 100%;
+      padding: 18px;
+      background: linear-gradient(145deg, #667eea, #764ba2);
+      color: white;
+      border: none;
+      border-radius: 12px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+
+    .submit-btn:hover {
+      background: linear-gradient(145deg, #5a6fd8, #6a4190);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 20px rgba(102, 126, 234, 0.4);
     }
 
     .intro-text {
       background: rgba(0, 0, 0, 0.3);
       backdrop-filter: blur(10px);
       border: 1px solid rgba(255, 255, 255, 0.2);
+      color: white;
+      padding: 25px;
+      border-radius: 20px;
+      margin-bottom: 30px;
+      text-align: center;
+      font-size: 16px;
+      line-height: 1.6;
     }
 
     /* Modal Styles */
@@ -222,7 +292,7 @@
 
     .modal-content {
       background: linear-gradient(145deg, #ffffff, #f8f9fa);
-      padding: clamp(20px, 5vw, 40px);
+      padding: 40px;
       border-radius: 25px;
       text-align: center;
       max-width: 90%;
@@ -232,17 +302,16 @@
       border: 1px solid rgba(255, 255, 255, 0.2);
     }
 
-    .modal h2 {
+    .modal h3 {
       color: #333;
       margin-bottom: 20px;
-      font-size: clamp(20px, 5vw, 32px);
-      text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      font-size: 24px;
     }
 
     .modal p {
       color: #666;
       margin-bottom: 25px;
-      font-size: clamp(14px, 3vw, 18px);
+      font-size: 16px;
       line-height: 1.5;
     }
 
@@ -254,123 +323,110 @@
     }
 
     .modal .btn {
-      padding: clamp(10px, 3vw, 15px) clamp(16px, 4vw, 30px);
-      font-size: clamp(12px, 3vw, 16px);
+      padding: 15px 30px;
+      font-size: 16px;
       border-radius: 15px;
       flex: 1;
       min-width: 100px;
     }
 
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
-    body { font-family: 'Inter', sans-serif; }
-    
-    .modal-backdrop {
-        backdrop-filter: blur(8px);
-        background-color: rgba(0, 0, 0, 0.5);
-    }
-    
-    .modal-enter {
-        animation: modalEnter 0.3s ease-out;
-    }
-    
-    .modal-exit {
-        animation: modalExit 0.3s ease-in;
-    }
-    
-    @keyframes modalEnter {
-        from {
-            opacity: 0;
-            transform: scale(0.9) translateY(-20px);
-        }
-        to {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
-    }
-    
-    @keyframes modalExit {
-        from {
-            opacity: 1;
-            transform: scale(1) translateY(0);
-        }
-        to {
-            opacity: 0;
-            transform: scale(0.9) translateY(-20px);
-        }
-    }
-    
-    .form-input:focus {
-        box-shadow: 0 0 0 3px rgba(93, 92, 222, 0.1);
-    }
-    
-    .gradient-bg {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    .cancel-btn {
+      background: linear-gradient(145deg, #6c757d, #5a6268);
     }
 
-    /* Mobile Optimizations */
+    .cancel-btn:hover {
+      background: linear-gradient(145deg, #5a6268, #495057);
+    }
+
+    .preview-box {
+      background: rgba(102, 126, 234, 0.1);
+      border: 1px solid rgba(102, 126, 234, 0.2);
+      border-radius: 12px;
+      padding: 20px;
+      margin: 20px 0;
+      text-align: left;
+    }
+
+    .preview-box h4 {
+      color: #667eea;
+      font-size: 14px;
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .preview-content {
+      color: #333;
+      font-size: 14px;
+      white-space: pre-line;
+      line-height: 1.5;
+    }
+
+    /* Responsive Design */
     @media (max-width: 768px) {
-      .burger-btn {
-        display: flex;
-      }
-
-      .main-ui {
+      .nav-menu {
         display: none;
       }
 
-      .ui-container {
-        top: 10px;
-        width: 98%;
-        max-width: none;
+      .burger {
+        display: flex;
+      }
+
+      .mobile-menu {
+        display: block;
       }
 
       .main-content {
-        margin-top: 80px;
-        padding: 15px;
+        padding: 20px 15px;
       }
 
-      .form-container {
-        max-width: 100%;
+      .content {
+        padding: 25px 20px;
       }
 
-      .glass-effect {
-        padding: clamp(16px, 4vw, 24px);
+      .content h2 {
+        font-size: 28px;
+        margin-bottom: 25px;
       }
 
-      .intro-text {
-        padding: clamp(16px, 4vw, 20px);
-        font-size: clamp(14px, 3.5vw, 16px);
-      }
-    }
-
-    @media (max-width: 480px) {
-      .ui-container {
-        top: 8px;
-        width: 99%;
+      .content p {
+        font-size: 15px;
+        text-align: left;
       }
 
-      .main-content {
-        margin-top: 70px;
-        padding: 10px;
+      .nav-container {
+        height: 60px;
+        padding: 0 15px;
       }
 
-      .burger-btn {
-        width: 45px;
-        height: 45px;
-        right: 12px;
+      .logo {
+        font-size: 20px;
       }
 
-      .burger-btn span {
-        width: 20px;
-        height: 2px;
-      }
-
-      .glass-effect {
-        padding: 16px;
+      .mobile-menu {
+        top: 60px;
       }
 
       .intro-text {
+        padding: 20px;
+        font-size: 15px;
+      }
+
+      .form-input {
+        padding: 12px;
+        font-size: 16px;
+      }
+
+      .submit-btn {
         padding: 16px;
-        font-size: 14px;
+      }
+
+      .modal-content {
+        padding: 25px;
+        width: 95%;
+      }
+
+      .modal h3 {
+        font-size: 20px;
       }
 
       .modal-buttons {
@@ -383,235 +439,301 @@
       }
     }
 
-    @media (max-width: 320px) {
-      .ui-container {
-        top: 5px;
-      }
-
+    @media (max-width: 480px) {
       .main-content {
-        margin-top: 60px;
-        padding: 8px;
+        padding: 15px 10px;
       }
 
-      .glass-effect {
-        padding: 12px;
+      .content {
+        padding: 20px 15px;
       }
-    }
 
-    /* Form responsive improvements */
-    @media (max-width: 768px) {
-      .form-input {
-        font-size: 16px !important; /* Prevent zoom on iOS */
-        padding: clamp(12px, 3vw, 16px);
+      .content h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
       }
-      
-      textarea.form-input {
-        min-height: 100px;
-      }
-    }
 
-    /* Touch improvements */
-    @media (hover: none) and (pointer: coarse) {
+      .content p {
+        font-size: 14px;
+      }
+
+      .nav-container {
+        height: 55px;
+        padding: 0 10px;
+      }
+
+      .logo {
+        font-size: 18px;
+      }
+
+      .mobile-menu {
+        top: 55px;
+      }
+
+      .mobile-menu-items {
+        padding: 15px;
+        gap: 12px;
+      }
+
       .btn {
-        min-height: 44px;
-        min-width: 44px;
+        padding: 14px 16px;
+        font-size: 13px;
+        min-height: 48px;
       }
-      
-      .form-input {
-        min-height: 44px;
+
+      .intro-text {
+        padding: 18px;
+        font-size: 14px;
+      }
+
+      .modal-content {
+        padding: 20px;
       }
     }
 
-    /* Ambient lighting effect */
-    body::before {
-      content: '';
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
-      pointer-events: none;
-      z-index: 1;
+    /* Dark mode support */
+    @media (prefers-color-scheme: dark) {
+      .header {
+        background: rgba(24, 24, 24, 0.95);
+      }
+
+      .content {
+        background: rgba(24, 24, 24, 0.95);
+        color: #e0e0e0;
+      }
+
+      .content h2 {
+        color: #fff;
+      }
+
+      .content p {
+        color: #ccc;
+      }
+
+      .form-group label {
+        color: #e0e0e0;
+      }
+
+      .form-input {
+        background: rgba(40, 40, 40, 0.9);
+        border-color: #444;
+        color: #e0e0e0;
+      }
+
+      .form-input::placeholder {
+        color: #999;
+      }
+
+      .mobile-menu {
+        background: rgba(24, 24, 24, 0.98);
+      }
+
+      .burger span {
+        background: #e0e0e0;
+      }
+
+      .modal-content {
+        background: rgba(24, 24, 24, 0.95);
+      }
+
+      .modal h3 {
+        color: #fff;
+      }
+
+      .modal p {
+        color: #ccc;
+      }
+
+      .preview-box {
+        background: rgba(102, 126, 234, 0.2);
+      }
+
+      .preview-content {
+        color: #e0e0e0;
+      }
+    }
+
+    /* Animation for modal */
+    .modal-enter {
+      animation: modalEnter 0.3s ease-out;
+    }
+
+    .modal-exit {
+      animation: modalExit 0.3s ease-in;
+    }
+
+    @keyframes modalEnter {
+      from {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+      }
+      to {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+    }
+
+    @keyframes modalExit {
+      from {
+        opacity: 1;
+        transform: scale(1) translateY(0);
+      }
+      to {
+        opacity: 0;
+        transform: scale(0.9) translateY(-20px);
+      }
     }
   </style>
 </head>
 
 <body>
-  <div class="ui-container">
-    <div class="burger-menu">
-      <button class="burger-btn" onclick="toggleMenu()">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
+  <header class="header">
+    <nav class="nav-container">
+      <a href="/" class="logo">🎮 Virtual Rubik</a>
       
-      <div class="main-ui">
-       <a href="/" class="btn">🏠</a>
-        <a href="about-us" class="btn">About</a>
-        <a href="how-to-play" class="btn">How To</a>
-        <a href="privacy-policy" class="btn">Privacy</a>
-        <a href="terms-of-use" class="btn">TOS</a>
-        <a href="contact-us" class="btn">Contact</a>
-      </div>
+      <ul class="nav-menu">
+        <li><a href="/" class="btn">🏠 Home</a></li>
+        <li><a href="about-us" class="btn">About Us</a></li>
+        <li><a href="how-to-play" class="btn">How To</a></li>
+        <li><a href="disclaimer" class="btn">Disclaimer</a></li>
+        <li><a href="privacy-policy" class="btn">Privacy</a></li>
+        <li><a href="terms-of-service" class="btn">TOS</a></li>
+        <li><a href="contact-us" class="btn">Contact</a></li>
+      </ul>
 
-      <div class="menu-dropdown" id="menuDropdown">
-       <a href="/" class="btn">🏠</a>
-        <a href="about-us" class="btn">About</a>
+      <div class="burger" onclick="toggleMobileMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </div>
+    </nav>
+
+    <div class="mobile-menu" id="mobileMenu">
+      <div class="mobile-menu-items">
+        <a href="/" class="btn">🏠 Home</a>
+        <a href="about-us" class="btn">About Us</a>
         <a href="how-to-play" class="btn">How To</a>
+        <a href="disclaimer" class="btn">Disclaimer</a>
         <a href="privacy-policy" class="btn">Privacy</a>
-        <a href="terms-of-use" class="btn">TOS</a>
+        <a href="terms-of-service" class="btn">TOS</a>
         <a href="contact-us" class="btn">Contact</a>
       </div>
     </div>
-  </div>
+  </header>
 
-  <div class="main-content">
-    <div class="text-center mb-8 max-w-3xl w-full">
-      <p class="intro-text text-white text-lg leading-relaxed rounded-2xl p-6">
+  <main class="main-content">
+    <div class="content">
+      <h2>Contact Us</h2>
+      
+      <div class="intro-text">
         We'd love to hear from you! Whether you have questions, feedback, or suggestions about "Virtual Rubik," feel free to reach out. Our team is here to help and is always eager to improve your gaming experience. Please fill out the form below, and we'll get back to you as soon as possible!
-      </p>
-    </div>
-
-    <div class="form-container">
-      <!-- Contact Form Card -->
-      <div class="glass-effect rounded-3xl shadow-2xl p-8 dark:shadow-gray-900/50">
-        <div class="text-center mb-8">
-          <div class="w-16 h-16 bg-primary rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 4.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
-            </svg>
-          </div>
-          <h2 class="text-3xl font-bold text-gray-800 dark:text-white mb-2">Contact Us</h2>
-          <p class="text-gray-600 dark:text-gray-300">Send message via Whatsapp</p>
-        </div>
-
-        <form id="contactForm" class="space-y-6">
-          <div class="form-group">
-            <label for="name" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Nama Lengkap
-            </label>
-            <input 
-              type="text" 
-              id="name" 
-              name="name" 
-              required
-              class="form-input w-full px-4 py-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
-              placeholder="Masukkan nama lengkap Anda"
-            >
-          </div>
-
-          <div class="form-group">
-            <label for="email" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Email Address
-            </label>
-            <input 
-              type="email" 
-              id="email" 
-              name="email" 
-              required
-              class="form-input w-full px-4 py-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200"
-              placeholder="nama@example.com"
-            >
-          </div>
-
-          <div class="form-group">
-            <label for="message" class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
-              Pesan
-            </label>
-            <textarea 
-              id="message" 
-              name="message" 
-              rows="4" 
-              required
-              class="form-input w-full px-4 py-3 text-base rounded-xl border border-gray-300 dark:border-gray-600 bg-white dark:bg-gray-800 text-gray-900 dark:text-white placeholder-gray-500 dark:placeholder-gray-400 focus:ring-2 focus:ring-primary focus:border-transparent transition-all duration-200 resize-none"
-              placeholder="Tulis pesan Anda di sini..."
-            ></textarea>
-          </div>
-
-          <button 
-            type="submit" 
-            class="w-full bg-primary hover:bg-primary-dark text-white font-semibold py-4 px-6 rounded-xl transition-all duration-200 transform hover:scale-105 hover:shadow-lg focus:outline-none focus:ring-4 focus:ring-primary/30 flex items-center justify-center space-x-2"
-          >
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.531 3.542"/>
-            </svg>
-            <span>Kirim ke WhatsApp</span>
-          </button>
-        </form>
       </div>
-    </div>
-  </div>
 
-  <!-- Modal Konfirmasi -->
-  <div id="confirmModal" class="fixed inset-0 z-50 hidden">
-    <div class="modal-backdrop fixed inset-0 flex items-center justify-center p-4">
-      <div id="modalContent" class="bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-md w-full mx-4 p-8">
-        <div class="text-center">
-          <div class="w-16 h-16 bg-green-100 dark:bg-green-900 rounded-full flex items-center justify-center mx-auto mb-4">
-            <svg class="w-8 h-8 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
-            </svg>
-          </div>
-          <h3 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">Konfirmasi Pengiriman</h3>
-          <p class="text-gray-600 dark:text-gray-300 mb-6">Apakah Anda yakin ingin mengirim pesan ini melalui WhatsApp?</p>
-          
-          <div id="messagePreview" class="bg-gray-50 dark:bg-gray-700 rounded-lg p-4 mb-6 text-left">
-            <div class="text-sm text-gray-600 dark:text-gray-400 mb-2">Preview Pesan:</div>
-            <div id="previewContent" class="text-sm text-gray-800 dark:text-gray-200 whitespace-pre-line"></div>
-          </div>
-          
-          <div class="flex space-x-3">
-            <button 
-              id="cancelBtn" 
-              class="flex-1 px-4 py-2 text-gray-700 dark:text-gray-300 bg-gray-200 dark:bg-gray-600 rounded-lg hover:bg-gray-300 dark:hover:bg-gray-500 transition-colors duration-200"
-            >
-              Batal
-            </button>
-            <button 
-              id="confirmBtn" 
-              class="flex-1 px-4 py-2 bg-primary hover:bg-primary-dark text-white rounded-lg transition-colors duration-200"
-            >
-              Ya, Kirim
-            </button> 
-          </div>
+      <form id="contactForm">
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <input 
+            type="text" 
+            id="name" 
+            name="name" 
+            required
+            class="form-input"
+            placeholder="Enter your full name"
+          >
         </div>
+
+        <div class="form-group">
+          <label for="email">Email Address</label>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            required
+            class="form-input"
+            placeholder="name@example.com"
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="message">Message</label>
+          <textarea 
+            id="message" 
+            name="message" 
+            rows="5" 
+            required
+            class="form-input"
+            placeholder="Write your message here..."
+          ></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">
+          <svg width="20" height="20" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893A11.821 11.821 0 0020.531 3.542"/>
+          </svg>
+          Send via WhatsApp
+        </button>
+      </form>
+    </div>
+  </main>
+
+  <!-- Confirmation Modal -->
+  <div id="confirmModal" class="modal">
+    <div id="modalContent" class="modal-content">
+      <h3>Confirm Submission</h3>
+      <p>Are you sure you want to send this message via WhatsApp?</p>
+      
+      <div class="preview-box">
+        <h4>Message Preview:</h4>
+        <div id="previewContent" class="preview-content"></div>
+      </div>
+      
+      <div class="modal-buttons">
+        <button id="cancelBtn" class="btn cancel-btn">Cancel</button>
+        <button id="confirmBtn" class="btn">Yes, Send</button>
       </div>
     </div>
   </div>
 
   <script>
-    // Burger menu functionality
-    function toggleMenu() {
-      const burgerBtn = document.querySelector('.burger-btn');
-      const menuDropdown = document.getElementById('menuDropdown');
+    function toggleMobileMenu() {
+      const burger = document.querySelector('.burger');
+      const mobileMenu = document.getElementById('mobileMenu');
       
-      burgerBtn.classList.toggle('active');
-      menuDropdown.classList.toggle('show');
+      burger.classList.toggle('active');
+      mobileMenu.classList.toggle('active');
     }
 
-    // Close menu when clicking outside
+    // Close mobile menu when clicking outside
     document.addEventListener('click', function(event) {
-      const burgerMenu = document.querySelector('.burger-menu');
-      const menuDropdown = document.getElementById('menuDropdown');
-      const burgerBtn = document.querySelector('.burger-btn');
+      const burger = document.querySelector('.burger');
+      const mobileMenu = document.getElementById('mobileMenu');
       
-      if (!burgerMenu.contains(event.target)) {
-        menuDropdown.classList.remove('show');
-        burgerBtn.classList.remove('active');
+      if (!burger.contains(event.target) && !mobileMenu.contains(event.target)) {
+        burger.classList.remove('active');
+        mobileMenu.classList.remove('active');
+      }
+    });
+
+    // Close mobile menu when window is resized to desktop
+    window.addEventListener('resize', function() {
+      if (window.innerWidth > 768) {
+        const burger = document.querySelector('.burger');
+        const mobileMenu = document.getElementById('mobileMenu');
+        burger.classList.remove('active');
+        mobileMenu.classList.remove('active');
       }
     });
 
     // Dark mode detection
     if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
-        document.documentElement.classList.add('dark');
+      document.documentElement.classList.add('dark');
     }
     window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', event => {
-        if (event.matches) {
-            document.documentElement.classList.add('dark');
-        } else {
-            document.documentElement.classList.remove('dark');
-        }
+      if (event.matches) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
     });
 
     // Form handling
@@ -625,76 +747,66 @@
     let formData = {};
 
     form.addEventListener('submit', function(event) {
-        event.preventDefault();
-        
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const message = document.getElementById('message').value;
+      event.preventDefault();
+      
+      const name = document.getElementById('name').value;
+      const email = document.getElementById('email').value;
+      const message = document.getElementById('message').value;
 
-        formData = { name, email, message };
+      formData = { name, email, message };
 
-        // Update preview content
-        previewContent.textContent = `Nama: ${name}\nEmail: ${email}\nPesan: ${message}`;
+      // Update preview content
+      previewContent.textContent = `Name: ${name}\nEmail: ${email}\nMessage: ${message}`;
 
-        // Show modal with animation
-        showModal();
+      // Show modal with animation
+      showModal();
     });
 
     function showModal() {
-        modal.classList.remove('hidden');
-        modalContent.classList.add('modal-enter');
-        document.body.style.overflow = 'hidden';
+      modal.style.display = 'flex';
+      modalContent.classList.add('modal-enter');
+      document.body.style.overflow = 'hidden';
     }
 
     function hideModal() {
-        modalContent.classList.add('modal-exit');
-        setTimeout(() => {
-            modal.classList.add('hidden');
-            modalContent.classList.remove('modal-enter', 'modal-exit');
-            document.body.style.overflow = 'auto';
-        }, 300);
+      modalContent.classList.add('modal-exit');
+      setTimeout(() => {
+        modal.style.display = 'none';
+        modalContent.classList.remove('modal-enter', 'modal-exit');
+        document.body.style.overflow = 'auto';
+      }, 300);
     }
 
     cancelBtn.addEventListener('click', hideModal);
 
     confirmBtn.addEventListener('click', function() {
-        const phoneNumber = '6281234567890'; // Ganti dengan nomor WhatsApp Anda
-        const formattedMessage = `Nama: ${formData.name}%0AEmail: ${formData.email}%0APesan: ${formData.message}`;
-        const whatsappUrl = `https://wa.me/${phoneNumber}?text=${formattedMessage}`;
+      const phoneNumber = '6287953647774'; // Updated WhatsApp number
+      const formattedMessage = `Name: ${formData.name}%0AEmail: ${formData.email}%0AMessage: ${formData.message}`;
+      const whatsappUrl = `https://wa.me/${phoneNumber}?text=${formattedMessage}`;
 
-        // Open WhatsApp in new tab
-        window.open(whatsappUrl, '_blank');
-        
-        // Reset form
-        form.reset();
-        
-        // Hide modal
-        hideModal();
+      // Open WhatsApp in new tab
+      window.open(whatsappUrl, '_blank');
+      
+      // Reset form
+      form.reset();
+      
+      // Hide modal
+      hideModal();
     });
 
     // Close modal when clicking outside
     modal.addEventListener('click', function(event) {
-        if (event.target === modal) {
-            hideModal();
-        }
+      if (event.target === modal) {
+        hideModal();
+      }
     });
 
     // Close modal with Escape key
     document.addEventListener('keydown', function(event) {
-        if (event.key === 'Escape' && !modal.classList.contains('hidden')) {
-            hideModal();
-        }
+      if (event.key === 'Escape' && modal.style.display === 'flex') {
+        hideModal();
+      }
     });
-
-    // Handle viewport height changes on mobile
-    function handleViewportChange() {
-      let vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', `${vh}px`);
-    }
-
-    window.addEventListener('resize', handleViewportChange);
-    window.addEventListener('orientationchange', handleViewportChange);
-    handleViewportChange();
   </script>
 </body>
 </html>
