@@ -6,11 +6,12 @@
   <title>About 3D Virtual Rubik's Game Online</title>
   <meta name="description" content="3d virtual rubik cube online game, sharpen your rubik skills here, free without login">
   <meta name="keywords" content="Play 3D Rubik, rubik cube online, rubik game, virtual rubik, rubiks cube 3x3, rubikcube game, online rubik, rubikcube online, magic cube online, rubik's cube online, rubik puzzles online, rubik cube solver online, html game, html canvas game, canvas html game, canvas html5 game, html game canvas, html game code, html canvas tag, html5 mario">
+   <meta name="google-site-verification" content="mwVJjd2SOZiYP1IOf2OS2t8BhpiqCKOQ4jXOBIincig" />
   <!-- Open Graph / Social Media -->
   <meta property="og:type" content="website">
   <meta property="og:url" content="https://rubiksgame.pages.dev/">
   <meta property="og:title" content="Play 3D Virtual Rubik's Cube Online Game">
-  <meta property="og:image" content="og.png">
+  <meta property="og:image" content="https://rubiksgame.pages.dev/og.png">
   <meta property="og:description" content="3d virtual rubik cube online game, sharpen your rubik skills here, free without login">
   <meta property="og:site_name" content="3D Virtual Rubik's">
   
@@ -18,7 +19,7 @@
   <meta name="twitter:site" content="@thepracticaldev">
   <meta name="twitter:title" content="Play 3D Virtual Rubik's Cube Online Game">
   <meta name="twitter:description" content="3d virtual rubik cube online game, sharpen your rubik skills here, free without login">
-  <meta name="twitter:image:src" content="https://gamezz.pages.dev/Pictures/splash.png">
+  <meta name="twitter:image:src" content="https://rubiksgame.pages.dev/og.png">
   <meta name="twitter:card" content="summary_large_image">
   
   <!-- Robots & Canonical -->
@@ -39,6 +40,61 @@
   <meta name="application-name" content="3D Virtual Rubik's">
   <meta name="theme-color" content="#1a2735" media="(prefers-color-scheme: light)">
   <meta name="theme-color" content="#0d1620" media="(prefers-color-scheme: dark)">
+  <link rel="manifest" type="application/json" href="/manifest.json">
+  <script type='application/ld+json'>
+{
+  "@context": "https://schema.org",
+  "@type": "Game",
+  "name": "3D Virtual Rubik's",
+  "description": "3d virtual rubik cube online game, sharpen your rubik skills here, free without login",
+  "image": "https://rubiksgame.pages.dev/3d-virtual-rubik.png",
+  "url": "https://rubiksgame.pages.dev/",
+  "creator": {
+    "@type": "Person",
+    "name": "hendygital"
+  },
+  "genre": "Puzzle",
+  "keywords": "Play 3D Rubik, rubik cube online, rubik game, virtual rubik, rubiks cube 3x3, rubikcube game, online rubik, rubikcube online, magic cube online, rubik's cube online, rubik puzzles online, rubik cube solver online, html game, html canvas game, canvas html game, canvas html5 game, html game canvas, html game code, html canvas tag, html5 mario",
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "USD",
+    "price": "0.00",
+    "itemCondition": "https://schema.org/NewCondition",
+    "availability": "https://schema.org/InStock"
+  },
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "ratingCount": "475"
+  }
+}
+</script>
+<script type='application/ld+json'>
+{
+  "@context": "https://schema.org",
+  "@type": "VideoObject",
+  "name": "EASIEST WAY TO SOLVE THE 3x3 RUBIK'S CUBE | VERY DETAILED",
+  "description": "Watch tutorial of the 3D Virtual Rubik's 3x3 cube and learn tips and tricks to solve it.",
+  "thumbnailUrl": "https://i.ytimg.com/vi/aTG-M98z4R4/maxresdefault.jpg",
+  "uploadDate": "2025-06-16",
+  "duration": "PT37M12S",
+  "contentUrl": "https://www.youtube.com/watch?v=aTG-M98z4R4&pp=ygUScnViaWsgM3gzIHR1dG9yaWFs",
+  "embedUrl": "https://www.youtube.com/embed/aTG-M98z4R4",
+  "interactionStatistic": {
+    "@type": "InteractionCounter",
+    "interactionType": "https://schema.org/WatchAction",
+    "userInteractionCount": 171000
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Hendygital",
+    "logo": {
+      "@type": "ImageObject",
+      "url": "https://rubiksgame.pages.dev/3d-virtual-rubik.png"
+    }
+  }
+}
+</script>
   <style>
     * {
       margin: 0;
@@ -64,23 +120,82 @@
     }
 
     .ui-container {
-    position: fixed;
-    top: 20px;
-    left: 50%;
-    transform: translateX(-50%);
-    z-index: 1000;
-    display: flex;
-    flex-direction: column; /* Mengatur arah flex menjadi kolom */
-    gap: 10px;
-    align-items: flex-start; /* Menyelaraskan item ke kiri */
-    background: rgba(255, 255, 255, 0.95);
-    padding: 15px 25px;
-    border-radius: 20px;
-    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
-    backdrop-filter: blur(15px);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    word-wrap: break-word; /* Memungkinkan teks untuk terurai */
-}
+      position: fixed;
+      top: 20px;
+      right: 20px;
+      z-index: 1000;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 20px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .burger-menu {
+      position: relative;
+    }
+
+    .burger-btn {
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(145deg, #667eea, #764ba2);
+      border: none;
+      border-radius: 15px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+    }
+
+    .burger-btn span {
+      width: 25px;
+      height: 3px;
+      background: white;
+      margin: 2px 0;
+      transition: all 0.3s ease;
+      border-radius: 2px;
+    }
+
+    .burger-btn.active span:nth-child(1) {
+      transform: rotate(45deg) translate(5px, 5px);
+    }
+
+    .burger-btn.active span:nth-child(2) {
+      opacity: 0;
+    }
+
+    .burger-btn.active span:nth-child(3) {
+      transform: rotate(-45deg) translate(7px, -6px);
+    }
+
+    .controls {
+      display: flex;
+      gap: 12px;
+      padding: 15px 25px;
+    }
+
+    .menu-dropdown {
+      position: absolute;
+      top: 60px;
+      right: 0;
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 15px;
+      box-shadow: 0 8px 32px rgba(0, 0, 0, 0.15);
+      backdrop-filter: blur(15px);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      padding: 15px;
+      display: none;
+      flex-direction: column;
+      gap: 10px;
+      min-width: 200px;
+    }
+
+    .menu-dropdown.show {
+      display: flex;
+    }
 
     .timer {
       font-size: 32px;
@@ -122,49 +237,25 @@
       100% { left: 100%; }
     }
 
-    .controls {
-      display: flex;
-      gap: 12px;
+    .btn {
+      padding: 12px 16px;
+      border: none;
+      border-radius: 12px;
+      background: linear-gradient(145deg, #667eea, #764ba2);
+      color: white;
+      cursor: pointer;
+      font-weight: bold;
+      font-size: 14px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      white-space: nowrap;
+      text-align: center;
+      display: inline-block;
+      text-decoration: none;
     }
 
-   .btn {
-    padding: 12px 10px; /* Kurangi padding samping jika perlu */
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(145deg, #667eea, #764ba2);
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    white-space: nowrap; /* Mencegah teks berpindah ke baris baru */
-    text-align: center; /* Menyelaraskan teks di tengah */
-    display: inline-block; /* Agar tombol menyesuaikan dengan konten */
-    margin: 0; /* Pastikan tidak ada margin tambahan */
-}
-
-
-.play .btns {
-    padding: 12px 10px; /* Kurangi padding samping jika perlu */
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(145deg, #667eea, #764ba2);
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 14px;
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    white-space: nowrap; /* Mencegah teks berpindah ke baris baru */
-    text-align: center; /* Menyelaraskan teks di tengah */
-    display: inline-block; /* Agar tombol menyesuaikan dengan konten */
-    margin: 0; /* Pastikan tidak ada margin tambahan */
-}
     .btn:hover {
       background: linear-gradient(145deg, #5a6fd8, #6a4190);
       transform: translateY(-3px);
@@ -173,6 +264,38 @@
 
     .btn:active {
       transform: translateY(-1px);
+    }
+
+    .game-image-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      width: 100%;
+      padding: 20px;
+    }
+
+    .game-image-link {
+      display: block;
+      max-width: 90%;
+      width: auto;
+      height: auto;
+      transition: transform 0.3s ease;
+      text-decoration: none;
+    }
+
+    .game-image-link:hover {
+      transform: scale(1.05);
+    }
+
+    .game-image {
+      width: 100%;
+      height: auto;
+      max-width: 500px;
+      border-radius: 20px;
+      box-shadow: 0 15px 50px rgba(0, 0, 0, 0.3);
+      transition: all 0.3s ease;
     }
 
     .instructions {
@@ -390,59 +513,85 @@
 
     /* Responsive Design */
     @media (max-width: 768px) {
-      .ui-container {
-        top: 15px;
-        padding: 12px 20px;
-        flex-direction: column;
-        gap: 15px;
+      .burger-btn {
+        display: flex;
       }
 
-      .timer {
-        font-size: 28px;
-        min-width: 160px;
-        padding: 10px 14px;
+      .controls {
+        display: none;
+      }
+
+      .ui-container {
+        top: 15px;
+        right: 15px;
+        padding: 0;
+      }
+
+      .game-image {
+        max-width: 350px;
+      }
+
+      .game-image-container {
+        padding: 60px 15px 15px;
       }
 
       #container, #perspective {
-        height: min(300px, 80vw);
-        width: min(300px, 80vw);
+        height: min(250px, 70vw);
+        width: min(250px, 70vw);
       }
 
       .instructions {
         bottom: 15px;
-        font-size: 13px;
-        padding: 10px 20px;
+        font-size: 12px;
+        padding: 8px 16px;
+        left: 15px;
+        right: 15px;
+        transform: none;
       }
 
       .modal-content {
         margin: 15px;
-        padding: 30px;
+        padding: 25px;
       }
 
       .modal h2 {
-        font-size: 28px;
+        font-size: 24px;
       }
 
       .modal-buttons {
         flex-direction: column;
       }
+
+      .menu-dropdown {
+        right: -10px;
+        min-width: 180px;
+      }
     }
 
     @media (max-width: 480px) {
+      .game-image {
+        max-width: 280px;
+      }
+
       #container, #perspective {
-        height: 250px;
-        width: 250px;
+        height: 200px;
+        width: 200px;
       }
 
       .ui-container {
-        width: 90%;
-        max-width: 320px;
+        top: 10px;
+        right: 10px;
       }
 
-      .timer {
-        font-size: 24px;
-        min-width: 140px;
-        padding: 8px 12px;
+      .game-image-container {
+        padding: 50px 10px 10px;
+      }
+
+      .instructions {
+        font-size: 11px;
+        padding: 6px 12px;
+        left: 10px;
+        right: 10px;
       }
     }
 
@@ -475,54 +624,42 @@
       pointer-events: none;
       z-index: 1;
     }
-.play {
-    display: block; /* Pastikan gambar dalam blok untuk pusatkan tombol */
-    margin: 0 auto; /* Pusatkan gambar */
-}
-
-.play .btns {
-    padding: 12px 10px; /* Padding tombol */
-    border: none;
-    border-radius: 12px;
-    background: linear-gradient(145deg, #667eea, #764ba2);
-    color: white;
-    cursor: pointer;
-    font-weight: bold;
-    font-size: 2rem; /* Ukuran teks responsif */
-    transition: all 0.3s ease;
-    box-shadow: 0 4px 15px rgba(102, 126, 234, 0.3);
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    white-space: nowrap; /* Mencegah teks berpindah ke baris baru */
-    text-align: center; /* Menyelaraskan teks di tengah */
-    display: inline-block; /* Agar tombol menyesuaikan dengan konten */
-    margin: 0; /* Pastikan tidak ada margin tambahan */
-}
-
-.playimg {
-    display: flex; /* Menggunakan flexbox */
-    flex-direction: column; /* Arah kolom */
-    align-items: center; /* Pusatkan secara horizontal */
-    justify-content: center; /* Pusatkan secara vertikal */
-    height: 100vh; /* Sesuaikan tinggi kontainer */
-}	
   </style>
 </head>
 
-<body>
+<body itemscope="itemscope" itemtype="https://schema.org/Game">
   <div class="ui-container">
-    
-    <div class="controls">
-	
-      <a href="/"><button class="btn">🏠</button></a>
-       <a href="about-us"><button class="btn">About Us</button></a>
-	    <a href="how-to-play"><button class="btn">How To</button></a>
-	     <a href="disclaimer"><button class="btn">Disclaimer</button></a>
-		  <a href="privacy-policy"><button class="btn">Privacy</button></a>
-		   <a href="terms-of-service"><button class="btn">TOS</button></a>
-		   <a href="contact-us"><button class="btn">Contact</button></a>
-	
+    <div class="burger-menu">
+      <button class="burger-btn" onclick="toggleMenu()">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+      
+      <div class="controls">
+        <a href="/" class="btn">🏠</a>
+        <a href="about-us" class="btn">About Us</a>
+        <a href="privacy-policy" class="btn">Privacy Policy</a>
+        <a href="terms-of-use" class="btn">Terms of Use</a>
+        <a href="contact-us" class="btn">Contact Us</a>
+      </div>
+
+      <div class="menu-dropdown" id="menuDropdown">
+        <a href="/" class="btn">🏠 Home</a>
+        <a href="about-us" class="btn">About Us</a>
+        <a href="privacy-policy" class="btn">Privacy Policy</a>
+        <a href="terms-of-use" class="btn">Terms of Use</a>
+        <a href="contact-us" class="btn">Contact Us</a>
+      </div>
     </div>
+  </div>
+
+  
+
+  <div class="instructions">
+    Copyleft<br/>2025 hendygital
+  </div>
+
 <h2>About Us</h2>
 <p>We are a group of Rubik's Cube enthusiasts passionate about enhancing our skills and instincts. Our team has come together to create "Virtual Rubik," an innovative game designed to help players train their Rubik's Cube abilities in a fun and engaging way.</p>
 <p>"Virtual Rubik" is built on HTML5, which means you can play it anytime, anywhere, without the need to download or install anything. Whether you're at home or on the go, you can enjoy the challenge of solving the Rubik's Cube without having to carry a physical cube with you.</p>
